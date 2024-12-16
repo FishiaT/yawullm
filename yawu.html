@@ -1,0 +1,2026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yawu 0.1</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --md-ref-typeface-brand: 'Google Sans', sans-serif;
+            --md-ref-typeface-plain: 'Roboto', sans-serif;
+            --md-sys-color-outline-variant: #C4C6CF;
+        }
+        .default-light {
+            --md-sys-color-primary: #0077c8;
+            --md-sys-color-primary-container: #d7e2ff;
+            --md-sys-color-on-primary: #ffffff;
+            --md-sys-color-on-primary-container: #001e35;
+            --md-sys-color-secondary: #555f71;
+            --md-sys-color-secondary-container: #d9e2f9;
+            --md-sys-color-on-secondary: #ffffff;
+            --md-sys-color-on-secondary-container: #121c2b;
+            --md-sys-color-background: #fefbff;
+            --md-sys-color-on-background: #1b1b1f;
+            --md-sys-color-surface: #fefbff;
+            --md-sys-color-on-surface: #1b1b1f;
+            --md-sys-color-surface-variant: #e0e2ec;
+            --md-sys-color-on-surface-variant: #44474e;
+            --md-sys-color-outline: #74777f;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #f2f4fc;
+            --md-sys-color-surface-container-highest: #e6e8f1;
+            --md-sys-color-surface-bright: #fefbff;
+            --md-sys-color-inverse-surface: #2f3033;
+            --md-sys-color-inverse-on-surface: #f1f0f4;
+        }
+        .default-dark {
+            --md-sys-color-primary: #a9c7ff;
+            --md-sys-color-primary-container: #004f9e;
+            --md-sys-color-on-primary: #002a4d;
+            --md-sys-color-on-primary-container: #d7e2ff;
+            --md-sys-color-secondary: #bdc6dc;
+            --md-sys-color-secondary-container: #3d4859;
+            --md-sys-color-on-secondary: #273141;
+            --md-sys-color-on-secondary-container: #d9e2f9;
+            --md-sys-color-background: #1b1b1f;
+            --md-sys-color-on-background: #e3e2e6;
+            --md-sys-color-surface: #1b1b1f;
+            --md-sys-color-on-surface: #e3e2e6;
+            --md-sys-color-surface-variant: #44474e;
+            --md-sys-color-on-surface-variant: #c4c6cf;
+            --md-sys-color-outline: #8e9099;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #272b30;
+            --md-sys-color-surface-container-highest: #353940;
+            --md-sys-color-surface-bright: #383b43;
+            --md-sys-color-inverse-surface: #e3e2e6;
+            --md-sys-color-inverse-on-surface: #2f3033;
+        }
+        .pure-light-light {
+            --md-sys-color-primary: #e0e0e0;
+            --md-sys-color-primary-container: #f0f0f0;
+            --md-sys-color-on-primary: #000000;
+            --md-sys-color-on-primary-container: #101010;
+            --md-sys-color-secondary: #d0d0d0;
+            --md-sys-color-secondary-container: #e0e0e0;
+            --md-sys-color-on-secondary: #000000;
+            --md-sys-color-on-secondary-container: #101010;
+            --md-sys-color-background: #ffffff;
+            --md-sys-color-on-background: #000000;
+            --md-sys-color-surface: #ffffff;
+            --md-sys-color-on-surface: #000000;
+            --md-sys-color-surface-variant: #f0f0f0;
+            --md-sys-color-on-surface-variant: #101010;
+            --md-sys-color-outline: #757575;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #f5f5f5;
+            --md-sys-color-surface-container-highest: #e5e5e5;
+            --md-sys-color-surface-bright: #ffffff;
+            --md-sys-color-inverse-surface: #202020;
+            --md-sys-color-inverse-on-surface: #f0f0f0;
+        }
+        .pure-light-dark {
+            --md-sys-color-primary: #c0c0c0;
+            --md-sys-color-primary-container: #a0a0a0;
+            --md-sys-color-on-primary: #101010;
+            --md-sys-color-on-primary-container: #e0e0e0;
+            --md-sys-color-secondary: #b0b0b0;
+            --md-sys-color-secondary-container: #909090;
+            --md-sys-color-on-secondary: #101010;
+            --md-sys-color-on-secondary-container: #e0e0e0;
+            --md-sys-color-background: #000000;
+            --md-sys-color-on-background: #ffffff;
+            --md-sys-color-surface: #000000;
+            --md-sys-color-on-surface: #ffffff;
+            --md-sys-color-surface-variant: #202020;
+            --md-sys-color-on-surface-variant: #e0e0e0;
+            --md-sys-color-outline: #909090;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #151515;
+            --md-sys-color-surface-container-highest: #303030;
+            --md-sys-color-surface-bright: #101010;
+            --md-sys-color-inverse-surface: #e0e0e0;
+            --md-sys-color-inverse-on-surface: #101010;
+        }
+        .pure-dark-light {
+            --md-sys-color-primary: #101010;
+            --md-sys-color-primary-container: #202020;
+            --md-sys-color-on-primary: #ffffff;
+            --md-sys-color-on-primary-container: #f0f0f0;
+            --md-sys-color-secondary: #303030;
+            --md-sys-color-secondary-container: #404040;
+            --md-sys-color-on-secondary: #ffffff;
+            --md-sys-color-on-secondary-container: #f0f0f0;
+            --md-sys-color-background: #000000;
+            --md-sys-color-on-background: #ffffff;
+            --md-sys-color-surface: #000000;
+            --md-sys-color-on-surface: #ffffff;
+            --md-sys-color-surface-variant: #202020;
+            --md-sys-color-on-surface-variant: #f0f0f0;
+            --md-sys-color-outline: #606060;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #101010;
+            --md-sys-color-surface-container-highest: #202020;
+            --md-sys-color-surface-bright: #050505;
+            --md-sys-color-inverse-surface: #f0f0f0;
+            --md-sys-color-inverse-on-surface: #000000;
+        }
+        .pure-dark-dark {
+            --md-sys-color-primary: #202020;
+            --md-sys-color-primary-container: #303030;
+            --md-sys-color-on-primary: #f0f0f0;
+            --md-sys-color-on-primary-container: #ffffff;
+            --md-sys-color-secondary: #404040;
+            --md-sys-color-secondary-container: #505050;
+            --md-sys-color-on-secondary: #f0f0f0;
+            --md-sys-color-on-secondary-container: #ffffff;
+            --md-sys-color-background: #101010;
+            --md-sys-color-on-background: #f0f0f0;
+            --md-sys-color-surface: #101010;
+            --md-sys-color-on-surface: #f0f0f0;
+            --md-sys-color-surface-variant: #303030;
+            --md-sys-color-on-surface-variant: #ffffff;
+            --md-sys-color-outline: #808080;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #202020;
+            --md-sys-color-surface-container-highest: #353535;
+            --md-sys-color-surface-bright: #151515;
+            --md-sys-color-inverse-surface: #ffffff;
+            --md-sys-color-inverse-on-surface: #101010;
+        }
+        .pastel-light {
+            --md-sys-color-primary: #aec6cf;
+            --md-sys-color-primary-container: #c5dcdf;
+            --md-sys-color-on-primary: #000000;
+            --md-sys-color-on-primary-container: #101010;
+            --md-sys-color-secondary: #d8bfd8;
+            --md-sys-color-secondary-container: #e6d2e6;
+            --md-sys-color-on-secondary: #000000;
+            --md-sys-color-on-secondary-container: #101010;
+            --md-sys-color-background: #f8f8ff;
+            --md-sys-color-on-background: #000000;
+            --md-sys-color-surface: #f8f8ff;
+            --md-sys-color-on-surface: #000000;
+            --md-sys-color-surface-variant: #e8e8f8;
+            --md-sys-color-on-surface-variant: #101010;
+            --md-sys-color-outline: #757575;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #f0f0fa;
+            --md-sys-color-surface-container-highest: #e0e0f0;
+            --md-sys-color-surface-bright: #f5f5ff;
+            --md-sys-color-inverse-surface: #202020;
+            --md-sys-color-inverse-on-surface: #f0f0f0;
+        }
+        .pastel-dark {
+            --md-sys-color-primary: #9ab6b9;
+            --md-sys-color-primary-container: #7a9699;
+            --md-sys-color-on-primary: #101010;
+            --md-sys-color-on-primary-container: #e0e0e0;
+            --md-sys-color-secondary: #c8a9c8;
+            --md-sys-color-secondary-container: #a889a8;
+            --md-sys-color-on-secondary: #101010;
+            --md-sys-color-on-secondary-container: #e0e0e0;
+            --md-sys-color-background: #080818;
+            --md-sys-color-on-background: #ffffff;
+            --md-sys-color-surface: #080818;
+            --md-sys-color-on-surface: #ffffff;
+            --md-sys-color-surface-variant: #181828;
+            --md-sys-color-on-surface-variant: #e0e0e0;
+            --md-sys-color-outline: #909090;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #101020;
+            --md-sys-color-surface-container-highest: #252535;
+            --md-sys-color-surface-bright: #050510;
+            --md-sys-color-inverse-surface: #e0e0e0;
+            --md-sys-color-inverse-on-surface: #101010;
+        }
+        .lilac-light {
+            --md-sys-color-primary: #c7b3e5;
+            --md-sys-color-primary-container: #d9c7f0;
+            --md-sys-color-on-primary: #000000;
+            --md-sys-color-on-primary-container: #101010;
+            --md-sys-color-secondary: #e8c2e8;
+            --md-sys-color-secondary-container: #f0d5f0;
+            --md-sys-color-on-secondary: #000000;
+            --md-sys-color-on-secondary-container: #101010;
+            --md-sys-color-background: #f8f0fc;
+            --md-sys-color-on-background: #000000;
+            --md-sys-color-surface: #f8f0fc;
+            --md-sys-color-on-surface: #000000;
+            --md-sys-color-surface-variant: #e8d8f8;
+            --md-sys-color-on-surface-variant: #101010;
+            --md-sys-color-outline: #757575;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #f0e5f5;
+            --md-sys-color-surface-container-highest: #e0d5e5;
+            --md-sys-color-surface-bright: #f5e5f8;
+            --md-sys-color-inverse-surface: #202020;
+            --md-sys-color-inverse-on-surface: #f0f0f0;
+        }
+        .lilac-dark {
+            --md-sys-color-primary: #b7a3d5;
+            --md-sys-color-primary-container: #9783b5;
+            --md-sys-color-on-primary: #101010;
+            --md-sys-color-on-primary-container: #e0e0e0;
+            --md-sys-color-secondary: #d8b2d8;
+            --md-sys-color-secondary-container: #b892b8;
+            --md-sys-color-on-secondary: #101010;
+            --md-sys-color-on-secondary-container: #e0e0e0;
+            --md-sys-color-background: #180818;
+            --md-sys-color-on-background: #ffffff;
+            --md-sys-color-surface: #180818;
+            --md-sys-color-on-surface: #ffffff;
+            --md-sys-color-surface-variant: #281828;
+            --md-sys-color-on-surface-variant: #e0e0e0;
+            --md-sys-color-outline: #909090;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #201020;
+            --md-sys-color-surface-container-highest: #352535;
+            --md-sys-color-surface-bright: #150515;
+            --md-sys-color-inverse-surface: #e0e0e0;
+            --md-sys-color-inverse-on-surface: #101010;
+        }
+        .latte-light {
+            --md-sys-color-primary: #d2b48c;
+            --md-sys-color-primary-container: #e8d5b7;
+            --md-sys-color-on-primary: #000000;
+            --md-sys-color-on-primary-container: #101010;
+            --md-sys-color-secondary: #c1a47e;
+            --md-sys-color-secondary-container: #d7b797;
+            --md-sys-color-on-secondary: #000000;
+            --md-sys-color-on-secondary-container: #101010;
+            --md-sys-color-background: #faf5ef;
+            --md-sys-color-on-background: #000000;
+            --md-sys-color-surface: #faf5ef;
+            --md-sys-color-on-surface: #000000;
+            --md-sys-color-surface-variant: #e8e0d8;
+            --md-sys-color-on-surface-variant: #101010;
+            --md-sys-color-outline: #757575;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #f0e8e0;
+            --md-sys-color-surface-container-highest: #e0d8d0;
+            --md-sys-color-surface-bright: #f5e8e0;
+            --md-sys-color-inverse-surface: #202020;
+            --md-sys-color-inverse-on-surface: #f0f0f0;
+        }
+        .latte-dark {
+            --md-sys-color-primary: #b2946c;
+            --md-sys-color-primary-container: #92744c;
+            --md-sys-color-on-primary: #101010;
+            --md-sys-color-on-primary-container: #e0e0e0;
+            --md-sys-color-secondary: #a1845e;
+            --md-sys-color-secondary-container: #81643e;
+            --md-sys-color-on-secondary: #101010;
+            --md-sys-color-on-secondary-container: #e0e0e0;
+            --md-sys-color-background: #181008;
+            --md-sys-color-on-background: #ffffff;
+            --md-sys-color-surface: #181008;
+            --md-sys-color-on-surface: #ffffff;
+            --md-sys-color-surface-variant: #282018;
+            --md-sys-color-on-surface-variant: #e0e0e0;
+            --md-sys-color-outline: #909090;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #201810;
+            --md-sys-color-surface-container-highest: #352520;
+            --md-sys-color-surface-bright: #151005;
+            --md-sys-color-inverse-surface: #e0e0e0;
+            --md-sys-color-inverse-on-surface: #101010;
+        }
+        .mocha-light {
+            --md-sys-color-primary: #8b4513;
+            --md-sys-color-primary-container: #a5673f;
+            --md-sys-color-on-primary: #ffffff;
+            --md-sys-color-on-primary-container: #f0f0f0;
+            --md-sys-color-secondary: #a06030;
+            --md-sys-color-secondary-container: #b07040;
+            --md-sys-color-on-secondary: #ffffff;
+            --md-sys-color-on-secondary-container: #f0f0f0;
+            --md-sys-color-background: #f8f0e8;
+            --md-sys-color-on-background: #000000;
+            --md-sys-color-surface: #f8f0e8;
+            --md-sys-color-on-surface: #000000;
+            --md-sys-color-surface-variant: #e8d8c8;
+            --md-sys-color-on-surface-variant: #101010;
+            --md-sys-color-outline: #757575;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #f0e0d0;
+            --md-sys-color-surface-container-highest: #e0d0c0;
+            --md-sys-color-surface-bright: #f5e5d8;
+            --md-sys-color-inverse-surface: #202020;
+            --md-sys-color-inverse-on-surface: #f0f0f0;
+        }
+        .mocha-dark {
+            --md-sys-color-primary: #6b2503;
+            --md-sys-color-primary-container: #4b0500;
+            --md-sys-color-on-primary: #f0f0f0;
+            --md-sys-color-on-primary-container: #ffffff;
+            --md-sys-color-secondary: #804010;
+            --md-sys-color-secondary-container: #602000;
+            --md-sys-color-on-secondary: #f0f0f0;
+            --md-sys-color-on-secondary-container: #ffffff;
+            --md-sys-color-background: #180800;
+            --md-sys-color-on-background: #ffffff;
+            --md-sys-color-surface: #180800;
+            --md-sys-color-on-surface: #ffffff;
+            --md-sys-color-surface-variant: #281810;
+            --md-sys-color-on-surface-variant: #e0e0e0;
+            --md-sys-color-outline: #909090;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #201005;
+            --md-sys-color-surface-container-highest: #352015;
+            --md-sys-color-surface-bright: #150500;
+            --md-sys-color-inverse-surface: #e0e0e0;
+            --md-sys-color-inverse-on-surface: #101010;
+        }
+        .macchiato-light {
+            --md-sys-color-primary: #705848;
+            --md-sys-color-primary-container: #887060;
+            --md-sys-color-on-primary: #ffffff;
+            --md-sys-color-on-primary-container: #f0f0f0;
+            --md-sys-color-secondary: #907868;
+            --md-sys-color-secondary-container: #a08878;
+            --md-sys-color-on-secondary: #ffffff;
+            --md-sys-color-on-secondary-container: #f0f0f0;
+            --md-sys-color-background: #f5f0e8;
+            --md-sys-color-on-background: #000000;
+            --md-sys-color-surface: #f5f0e8;
+            --md-sys-color-on-surface: #000000;
+            --md-sys-color-surface-variant: #e8e0d8;
+            --md-sys-color-on-surface-variant: #101010;
+            --md-sys-color-outline: #757575;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #f0e8e0;
+            --md-sys-color-surface-container-highest: #e0d8d0;
+            --md-sys-color-surface-bright: #f5e8e0;
+            --md-sys-color-inverse-surface: #202020;
+            --md-sys-color-inverse-on-surface: #f0f0f0;
+        }
+        .macchiato-dark {
+            --md-sys-color-primary: #503828;
+            --md-sys-color-primary-container: #301808;
+            --md-sys-color-on-primary: #f0f0f0;
+            --md-sys-color-on-primary-container: #ffffff;
+            --md-sys-color-secondary: #705848;
+            --md-sys-color-secondary-container: #503828;
+            --md-sys-color-on-secondary: #f0f0f0;
+            --md-sys-color-on-secondary-container: #ffffff;
+            --md-sys-color-background: #181008;
+            --md-sys-color-on-background: #ffffff;
+            --md-sys-color-surface: #181008;
+            --md-sys-color-on-surface: #ffffff;
+            --md-sys-color-surface-variant: #282018;
+            --md-sys-color-on-surface-variant: #e0e0e0;
+            --md-sys-color-outline: #909090;
+            --md-sys-color-shadow: #000000;
+            --md-sys-color-surface-container: #201810;
+            --md-sys-color-surface-container-highest: #352520;
+            --md-sys-color-surface-bright: #151005;
+            --md-sys-color-inverse-surface: #e0e0e0;
+            --md-sys-color-inverse-on-surface: #101010;
+        }
+        .color-scheme-select {
+            background-color: var(--md-sys-color-surface-container);
+            color: var(--md-sys-color-on-surface);
+            border: none;
+            border-radius: 20px;
+            padding: 12px 16px;
+            font-family: var(--md-ref-typeface-plain);
+            font-size: 14px;
+            transition: box-shadow 0.2s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2344474E' d='M1.41 0L6 4.58L10.59 0L12 1.41L6 7.41L0 1.41z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 12px 8px;
+            cursor: pointer;
+        }
+        .color-scheme-select:focus {
+            box-shadow: 0px 0px 0px 2px var(--md-sys-color-primary);
+            outline: none;
+        }
+        body, .dialog-input, .dialog-button, .prompt-textbox {
+            font: 400 14px/1.5 var(--md-ref-typeface-plain);
+        }
+        body {
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 20px;
+            border-radius: 24px;
+            background: var(--md-sys-color-surface);
+            box-shadow: 0 4px 6px -6px var(--md-sys-color-shadow);
+            position: relative;
+            z-index: 1;
+        }
+        .container::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 99;
+            display: none;
+        }
+        .container.dialog-open::before {
+            display: block;
+        }
+        .header {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 20px;
+            background-color: var(--md-sys-color-surface);
+            border-radius: 24px;
+            z-index: 10;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            text-align: center;
+            border-radius: 12px;
+            padding: 8px 16px;
+            position: absolute;
+            z-index: 11;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transform: translateY(10px);
+        }
+        .tooltip .tooltiptext.top {
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            transform: translateY(-10px);
+        }
+        .tooltip .tooltiptext.bottom {
+            top: 125%;
+            left: 50%;
+            margin-left: -60px;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
+        }
+        .header button {
+            margin-left: 10px;
+            padding: 8px;
+            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+        }
+        button:hover {
+            background-color: var(--md-sys-color-primary-container);
+        }
+        button:active {
+            background-color: var(--md-sys-color-secondary-container);
+        }
+        button i {
+            color: var(--md-sys-color-on-surface);
+            font-size: 20px;
+        }
+        .message-actions button i, .edit-actions button i {
+            font-size: 16px;
+        }
+        .chat-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1.2;
+            padding-top: 80px;
+            padding-bottom: 120px;
+            overflow-y: hidden;
+        }
+        .chat-area {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 10px;
+            width: 66%;
+        }
+        .chat-area::-webkit-scrollbar {
+            width: 12px;
+        }
+        .chat-area::-webkit-scrollbar-track {
+            background: var(--md-sys-color-outline-variant);
+            border-radius: 20px;
+        }
+        .chat-area::-webkit-scrollbar-thumb {
+            background-color: var(--md-sys-color-outline);
+            border-radius: 20px;
+            border: 3px solid var(--md-sys-color-outline-variant);
+        }
+        .chat-area::-webkit-scrollbar-thumb:hover {
+            background-color: var(--md-sys-color-on-surface-variant);
+        }
+        @supports (scrollbar-color: red blue) {
+            .chat-area {
+                scrollbar-color: var(--md-sys-color-outline) var(--md-sys-color-outline-variant);
+                scrollbar-width: thin;
+            }
+        }
+        .message {
+            clear: both;
+            margin-bottom: 16px;
+            padding: 16px;
+            border-radius: 20px;
+            max-width: 70%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .user-message {
+            float: right;
+            background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+            align-self: flex-end;
+            border-top-right-radius: 4px;
+        }
+        .ai-message {
+            float: left;
+            background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+            align-self: flex-start;
+            border-top-left-radius: 4px;
+        }
+        .message-content {
+            word-wrap: break-word;
+            margin-bottom: 12px;
+        }
+        .message-content pre {
+            border-radius: 16px;
+            padding: 8px 16px;
+        }
+        .message-content code {
+            border-radius: 16px;
+        }
+        .message-content table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            margin-bottom: 12px;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .message-content th, .message-content td {
+            border: 1px solid var(--md-sys-color-outline);
+            padding: 8px;
+            text-align: left;
+        }
+        .message-content th {
+            background-color: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+        }
+        .message-content tr:first-child th:first-child {
+            border-top-left-radius: 16px;
+        }
+        .message-content tr:first-child th:last-child {
+            border-top-right-radius: 16px;
+        }
+        .message-content tr:last-child td:first-child {
+            border-bottom-left-radius: 16px;
+        }
+        .message-content tr:last-child td:last-child {
+            border-bottom-right-radius: 16px;
+        }
+        .message-content th {
+            background-color: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+        }
+        .message-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .message:hover .message-actions {
+            opacity: 1;
+        }
+        .prompt-area {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            width: calc(66% + 40px);
+            margin: 0 auto;
+            padding: 16px;
+            background-color: var(--md-sys-color-surface);
+            border-radius: 24px;
+            z-index: 10;
+        }
+        .prompt-textbox, .dialog-input, .list-item-input, .parameter-input, .parameter-input-checkbox {
+            font-family: var(--md-ref-typeface-plain);
+            font-size: 14px;
+        }
+        .prompt-textbox, .dialog-input, .list-item-input, .parameter-input {
+            background-color: var(--md-sys-color-surface-container);
+            color: var(--md-sys-color-on-surface);
+            border: none;
+            border-radius: 20px;
+            transition: box-shadow 0.2s ease;
+        }
+        .prompt-textbox:focus, .dialog-input:focus, .list-item-input:focus, .parameter-input:focus {
+            box-shadow: 0px 0px 0px 2px var(--md-sys-color-primary);
+            outline: none;
+        }
+        .prompt-textbox {
+            flex-grow: 1;
+            padding: 16px;
+            resize: none;
+            max-height: 128px;
+            overflow-y: auto;
+            margin-right: 12px;
+            width: 100%;
+        }
+        .prompt-textbox::-webkit-scrollbar {
+            display: none;
+        }
+        .prompt-textbox {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .send-button, .cancel-button {
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            color: var(--md-sys-color-on-primary);
+            background-color: var(--md-sys-color-primary);
+        }
+        .send-button i {
+            pointer-events: none;
+        }
+        .cancel-button i {
+            pointer-events: none;
+        }
+        .cancel-button {
+            background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+        }
+        .edit-box-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .edit-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        .dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--md-sys-color-surface);
+            border-radius: 28px;
+            box-shadow: 0px 4px 16px var(--md-sys-color-shadow);
+            z-index: 100;
+            display: none;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+        }
+        .dialog.open {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+        .dialog-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 24px 0 24px;
+        }
+        .dialog-title {
+            font-size: 22px;
+            color: var(--md-sys-color-on-surface);
+        }
+        .dialog-content-scrollable {
+            overflow-y: auto;
+            padding: 16px 24px 16px 24px;
+        }
+        .dialog-content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .dialog-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 16px 24px 24px 24px;
+        }
+        .dialog-input {
+            padding: 12px 16px;
+        }
+        .dialog-button {
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        .dialog-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--md-sys-color-on-surface);
+            padding: 8px;
+            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+        }
+        .codeblock {
+            position: relative;
+        }
+        .copy-button {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            border: none;
+            border-radius: 16px;
+            padding: 6px 10px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 10;
+        }
+        .codeblock:hover .copy-button {
+            opacity: 1;
+        }
+        .disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .theme-radio {
+            margin-right: 10px;
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--md-sys-color-on-surface);
+            border-radius: 50%;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+        .theme-radio:before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--md-sys-color-primary);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .theme-radio:checked:before {
+            opacity: 1;
+        }
+        .theme-radio:hover {
+            background-color: var(--md-sys-color-primary-container);
+        }
+        .theme-radio:checked {
+            border-color: var(--md-sys-color-primary);
+        }
+        .theme-label {
+            margin-right: 20px;
+            color: var(--md-sys-color-on-surface);
+        }
+        .dialog-content > div {
+            display: flex;
+            align-items: center;
+        }
+        .snackbar-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .snackbar {
+            display: flex;
+            align-items: center;
+            background-color: var(--md-sys-color-surface-container-highest);
+            color: var(--md-sys-color-on-surface);
+            padding: 12px 16px;
+            border-radius: 24px;
+            box-shadow: 0px 4px 16px var(--md-sys-color-shadow);
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            opacity: 0;
+            transform: translateY(-20px);
+            width: auto;
+            max-width: 500px;
+        }
+        .snackbar.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .snackbar.hide {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        .snackbar-content {
+            margin-right: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .snackbar-icon {
+            font-size: 20px;
+        }
+        .snackbar-message {
+            line-height: 1.5;
+        }
+        .snackbar-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
+            color: var(--md-sys-color-on-surface);
+        }
+        .snackbar-close:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        .snackbar-close:active {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        .snackbar-close i {
+            font-size: 16px;
+            pointer-events: none;
+        }
+        .system-prompt-card .dialog-input {
+            resize: none;
+            height: 192px;
+            width: 100%;
+        }
+        .system-prompt-card .dialog-input::-webkit-scrollbar {
+            width: 12px;
+        }
+        .system-prompt-card .dialog-input::-webkit-scrollbar-track {
+            background: var(--md-sys-color-outline-variant);
+            border-radius: 20px;
+        }
+        .system-prompt-card .dialog-input::-webkit-scrollbar-thumb {
+            background-color: var(--md-sys-color-outline);
+            border-radius: 20px;
+            border: 3px solid var(--md-sys-color-outline-variant);
+        }
+        .system-prompt-card .dialog-input::-webkit-scrollbar-thumb:hover {
+            background-color: var(--md-sys-color-on-surface-variant);
+        }
+        @supports (scrollbar-color: red blue) {
+            .system-prompt-card .dialog-input {
+                scrollbar-color: var(--md-sys-color-outline) var(--md-sys-color-outline-variant);
+                scrollbar-width: thin;
+            }
+        }
+        .parameter-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .parameter-label {
+            flex: 1;
+            margin-right: 16px;
+            color: var(--md-sys-color-on-surface-variant);
+            cursor: pointer;
+        }
+        .parameter-input {
+            flex: 0 0 80px;
+            margin-right: 16px;
+            padding: 8px 12px;
+        }
+        .md-checkbox {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            margin-right: 16px;
+            user-select: none;
+        }
+        .md-checkbox__input {
+            display: none;
+        }
+        .md-checkbox__box {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: var(--md-sys-color-surface-container-highest);
+            border: 2px solid var(--md-sys-color-on-surface-variant);
+            border-radius: 4px;
+            position: relative;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .md-checkbox__checkmark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 14px;
+            height: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+        .md-checkbox__checkmark:after {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 8px;
+            border: solid var(--md-sys-color-on-primary);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        .md-checkbox__input:checked + .md-checkbox__box {
+            background-color: var(--md-sys-color-primary);
+            border-color: var(--md-sys-color-primary);
+        }
+        .md-checkbox__input:checked + .md-checkbox__box .md-checkbox__checkmark {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .list-input {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .list-item {
+            display: flex;
+            align-items: center;
+            background-color: var(--md-sys-color-surface-container);
+            border-radius: 20px;
+            padding: 8px 12px;
+        }
+        .list-item-input {
+            flex-grow: 1;
+            background: none;
+            border: none;
+            color: var(--md-sys-color-on-surface);
+            padding: 8px 12px;
+        }
+        .list-item-remove {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--md-sys-color-on-surface);
+            margin-left: 8px;
+            padding: 4px;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+        .list-item-remove:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        .list-add-button {
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+        .dialog-content-scrollable::-webkit-scrollbar {
+            width: 12px;
+        }
+        .dialog-content-scrollable::-webkit-scrollbar-track {
+            background: var(--md-sys-color-outline-variant);
+            border-radius: 20px;
+        }
+        .dialog-content-scrollable::-webkit-scrollbar-thumb {
+            background-color: var(--md-sys-color-outline); 
+            border-radius: 20px; 
+            border: 3px solid var(--md-sys-color-outline-variant); 
+        }
+        .dialog-content-scrollable::-webkit-scrollbar-thumb:hover {
+            background-color: var(--md-sys-color-on-surface-variant);
+        }
+        @supports (scrollbar-color: red blue) {
+            .dialog-content-scrollable {
+                scrollbar-color: var(--md-sys-color-outline) var(--md-sys-color-outline-variant);
+                scrollbar-width: thin;
+            }
+        }
+        .tooltip .parameter-tooltip {
+            visibility: hidden;
+            width: 300px;
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            text-align: center;
+            border-radius: 12px;
+            padding: 8px 16px;
+            position: absolute;
+            z-index: 12;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transform: translateY(10px);
+        }
+        .tooltip .parameter-tooltip.top {
+            bottom: 100%;
+            left: 50%;
+            margin-left: -150px;
+            transform: translateY(-10px);
+        }
+        .tooltip .parameter-tooltip.bottom {
+            top: 100%;
+            left: 50%;
+            margin-left: -150px;
+        }
+        .tooltip:hover .parameter-tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .settings-tabs {
+            display: flex;
+            padding: 0 24px;
+            margin-bottom: 5px;
+        }
+        .settings-tab {
+            padding: 12px 16px;
+            border: none;
+            background: none;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface-variant);
+            cursor: pointer;
+            transition: border-bottom-color 0.2s ease, color 0.2s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .settings-tab.active {
+            color: var(--md-sys-color-primary);
+            border-bottom-color: var(--md-sys-color-primary);
+            background-color: var(--md-sys-color-primary-container);
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+        .settings-tab-content        {
+            display: none;
+            height: 100%;
+            padding: 16px 0;
+            max-height: calc(80vh - 220px);
+        }
+        .settings-tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+        }
+        #connect-dialog {
+          width: 400px;
+        }
+        #connect-dialog .dialog-content-scrollable {
+          height: auto;
+          max-height: 400px;
+        }
+        #settings-dialog {
+          width: 550px;
+        }
+        #settings-dialog .dialog-content-scrollable {
+          height: calc(80vh - 220px);
+        }
+        .snackbar-icon-info {
+            color: var(--md-sys-color-primary);
+        }
+        .snackbar-icon-error {
+            color: #d32f2f;
+        }
+        .snackbar-icon-success {
+            color: #2e7d32;
+        }
+        .snackbar-icon-warning {
+            color: #ed6c02;
+        }
+    </style>
+</head>
+<body class="default-dark">
+    <div class="container">
+        <div class="header">
+            <div class="tooltip">
+                <button id="new-chat-button"><i class="fas fa-plus"></i></button>
+                <span class="tooltiptext bottom">New Chat</span>
+            </div>
+            <div class="tooltip">
+                <button id="export-chat-button"><i class="fas fa-download"></i></button>
+                <span class="tooltiptext bottom">Export</span>
+            </div>
+            <div class="tooltip">
+                <button id="connect-button"><i class="fas fa-link"></i></button>
+                <span class="tooltiptext bottom">Connect</span>
+            </div>
+            <div class="tooltip">
+                <button id="settings-button"><i class="fas fa-cog"></i></button>
+                <span class="tooltiptext bottom">Settings</span>
+            </div>
+        </div>
+        <div class="chat-wrapper">
+            <div id="chat-area" class="chat-area"></div>
+            <div class="prompt-area">
+                <textarea id="prompt-textbox" class="prompt-textbox" placeholder="Enter your message here..."></textarea>
+                <button id="send-button" class="send-button"><i class="fas fa-paper-plane"></i></button>
+                <button id="cancel-button" class="cancel-button" style="display: none;"><i class="fas fa-stop"></i></button>
+            </div>
+        </div>
+        <div id="connect-dialog" class="dialog">
+            <div class="dialog-header">
+                <div class="dialog-title">Connect to LLM</div>
+                <button class="dialog-close" aria-label="Close">×</button>
+            </div>
+            <div class="dialog-content-scrollable">
+                <div class="dialog-content">
+                    <input type="text" id="api-url" class="dialog-input" placeholder="URL">
+                    <input type="text" id="api-key" class="dialog-input" placeholder="API Key (optional)">
+                </div>
+            </div>
+            <div class="dialog-footer">
+                <button id="connect-confirm" class="dialog-button">Connect</button>
+            </div>
+        </div>
+        <div id="settings-dialog" class="dialog">
+            <div class="dialog-header">
+                <div class="dialog-title">Settings</div>
+                <button class="dialog-close" aria-label="Close">×</button>
+            </div>
+            <div class="settings-tabs">
+                <button class="settings-tab active" data-tab="general">General</button>
+                <button class="settings-tab" data-tab="parameters">Parameters</button>
+            </div>
+            <div class="dialog-content-scrollable">
+                <div id="general" class="settings-tab-content active">
+                    <div class="dialog-content">
+                        <div>
+                            <input type="radio" id="theme-light" class="theme-radio" name="theme" value="light">
+                            <label for="theme-light" class="theme-label">Light</label>
+                            <input type="radio" id="theme-dark" class="theme-radio" name="theme" value="dark" checked>
+                            <label for="theme-dark" class="theme-label">Dark</label>
+                        </div>
+                        <div>
+                            <label for="color-scheme" class="theme-label">Color Scheme</label>
+                            <select id="color-scheme" class="color-scheme-select">
+                                <option value="default">Default</option>
+                                <option value="pure-light">Pure Light</option>
+                                <option value="pure-dark">Pure Dark</option>
+                                <option value="pastel">Pastel</option>
+                                <option value="lilac">Lilac</option>
+                                <option value="latte">Latte</option>
+                                <option value="mocha">Mocha</option>
+                                <option value="macchiato">Macchiato</option>
+                            </select>
+                        </div>
+                        <div class="system-prompt-card">
+                            <textarea id="system-prompt" class="dialog-input" placeholder="System Prompt"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div id="parameters" class="settings-tab-content">
+                    <div class="dialog-content">
+                        <div class="parameter-row tooltip">
+                            <label for="temperature" class="parameter-label">Temperature</label>
+                            <input type="number" id="temperature" class="parameter-input" value="0.8">
+                            <span class="parameter-tooltip bottom">The randomness of the generated response</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="top_k" class="parameter-label">Top K</label>
+                            <input type="number" id="top_k" class="parameter-input" value="40">
+                            <span class="parameter-tooltip bottom">Limit the next token selection to the K most probable tokens</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="top_p" class="parameter-label">Top P</label>
+                            <input type="number" id="top_p" class="parameter-input" value="0.95">
+                            <span class="parameter-tooltip bottom">Limit the next token selection to a subset of tokens with a cumulative probability above a threshold P</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="min_p" class="parameter-label">Min P</label>
+                            <input type="number" id="min_p" class="parameter-input" value="0.05">
+                            <span class="parameter-tooltip bottom">The minimum probability for a token to be considered, relative to the probability of the most likely token</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="typical_p" class="parameter-label">Typical P</label>
+                            <input type="number" id="typical_p" class="parameter-input" value="1.0">
+                            <span class="parameter-tooltip bottom">Enable locally typical sampling with parameter p</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="repeat_penalty" class="parameter-label">Repeat Penalty</label>
+                            <input type="number" id="repeat_penalty" class="parameter-input" value="1.1">
+                            <span class="parameter-tooltip bottom">Control the repetition of token sequences in the generated text</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="repeat_last_n" class="parameter-label">Repeat Last N</label>
+                            <input type="number" id="repeat_last_n" class="parameter-input" value="64">
+                            <span class="parameter-tooltip bottom">Last n tokens to consider for penalizing repetition</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="penalize_nl" class="parameter-label">Penalize Newline</label>
+                            <div class="md-checkbox">
+                                <input type="checkbox" id="penalize_nl" class="md-checkbox__input parameter-input-checkbox" checked>
+                                <span class="md-checkbox__box"><span class="md-checkbox__checkmark"></span></span>
+                            </div>
+                            <span class="parameter-tooltip bottom">Penalize newline tokens when applying the repeat penalty</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="presence_penalty" class="parameter-label">Presence Penalty</label>
+                            <input type="number" id="presence_penalty" class="parameter-input" value="0.0">
+                            <span class="parameter-tooltip bottom">Repeat alpha presence penalty</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="frequency_penalty" class="parameter-label">Frequency Penalty</label>
+                            <input type="number" id="frequency_penalty" class="parameter-input" value="0.0">
+                            <span class="parameter-tooltip bottom">Repeat alpha frequency penalty</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="mirostat" class="parameter-label">Mirostat</label>
+                            <input type="number" id="mirostat" class="parameter-input" value="0">
+                            <span class="parameter-tooltip bottom">Enable mirostat sampling, controlling perplexity during text generation. 0 is disabled, 1 is Mirostat, and 2 is Mirostat 2.0</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="mirostat_tau" class="parameter-label">Mirostat Tau</label>
+                            <input type="number" id="mirostat_tau" class="parameter-input" value="5.0">
+                            <span class="parameter-tooltip bottom">Mirostat target entropy, parameter tau</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="mirostat_eta" class="parameter-label">Mirostat Eta</label>
+                            <input type="number" id="mirostat_eta" class="parameter-input" value="0.1">
+                            <span class="parameter-tooltip bottom">Mirostat learning rate, parameter eta</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="xtc_probability" class="parameter-label">XTC Probability</label>
+                            <input type="number" id="xtc_probability" class="parameter-input" value="0.0">
+                            <span class="parameter-tooltip bottom">The chance for token removal via XTC sampler</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="xtc_threshold" class="parameter-label">XTC Threshold</label>
+                            <input type="number" id="xtc_threshold" class="parameter-input" value="0.1">
+                            <span class="parameter-tooltip bottom">Minimum probability threshold for tokens to be removed via XTC sampler</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="dry_multiplier" class="parameter-label">DRY Multiplier</label>
+                            <input type="number" id="dry_multiplier" class="parameter-input" value="0.0">
+                            <span class="parameter-tooltip bottom">DRY repetition penalty multiplier</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="dry_base" class="parameter-label">DRY Base</label>
+                            <input type="number" id="dry_base" class="parameter-input" value="1.75">
+                            <span class="parameter-tooltip bottom">DRY repetition penalty base value</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="dry_allowed_length" class="parameter-label">DRY Allowed Length</label>
+                            <input type="number" id="dry_allowed_length" class="parameter-input" value="2">
+                            <span class="parameter-tooltip bottom">Tokens that extend repetition beyond this receive exponentially increasing penalty: multiplier * base ^ (length of repeating sequence before token - allowed length)</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="dry_penalty_last_n" class="parameter-label">DRY Penalty Last N</label>
+                            <input type="number" id="dry_penalty_last_n" class="parameter-input" value="-1">
+                            <span class="parameter-tooltip bottom">Tokens to scan for repetitions</span>
+                        </div>
+                        <div class="parameter-row tooltip">
+                            <label for="dry_sequence_breakers" class="parameter-label">DRY Sequence Breakers</label>
+                            <div id="dry_sequence_breakers" class="list-input">
+                            </div>
+                            <span class="parameter-tooltip bottom">Array of sequence breakers for DRY sampling</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dialog-footer">
+                <button id="settings-save" class="dialog-button">Save</button>
+            </div>
+        </div>
+        <div id="snackbar-container" class="snackbar-container">
+        </div>
+        <script>
+            let apiUrl = '';
+            let apiKey = '';
+            let systemPrompt = '';
+            let messages = [];
+            let currentReader;
+            let currentTheme = 'dark';
+            let currentColorScheme = 'default';
+            let generationParameters = {
+                temperature: 0.8,
+                top_k: 40,
+                top_p: 0.95,
+                min_p: 0.05,
+                typical_p: 1.0,
+                repeat_penalty: 1.1,
+                repeat_last_n: 64,
+                penalize_nl: true,
+                presence_penalty: 0.0,
+                frequency_penalty: 0.0,
+                mirostat: 0,
+                mirostat_tau: 5.0,
+                mirostat_eta: 0.1,
+                xtc_probability: 0.0,
+                xtc_threshold: 0.1,
+                dry_multiplier: 0.0,
+                dry_base: 1.75,
+                dry_allowed_length: 2,
+                dry_penalty_last_n: -1,
+                dry_sequence_breakers: ['\\n', ':', '"', '*']
+            };
+            const $ = document.querySelector.bind(document);
+            const $$ = document.querySelectorAll.bind(document);
+            const chatArea = $('#chat-area');
+            const promptTextbox = $('#prompt-textbox');
+            const sendButton = $('#send-button');
+            const cancelButton = $('#cancel-button');
+            const connectDialog = $('#connect-dialog');
+            const settingsDialog = $('#settings-dialog');
+            const connectConfirmButton = $('#connect-confirm');
+            const settingsSaveButton = $('#settings-save');
+            const apiURLInput = $('#api-url');
+            const apiKEYInput = $('#api-key');
+            const systemPromptInput = $('#system-prompt');
+            const themeLightRadio = $('#theme-light');
+            const themeDarkRadio = $('#theme-dark');
+            const colorSchemeSelect = $('#color-scheme');
+            const snackbarContainer = $('#snackbar-container');
+            const newChatButton = $('#new-chat-button');
+            const exportChatButton = $('#export-chat-button');
+            const settingsTabs = $$('.settings-tab');
+            const settingsTabContents = $$('.settings-tab-content');
+            const setTheme = (theme) => {
+                document.body.classList.toggle('dark-theme', theme === 'dark');
+                currentTheme = theme;
+                updateColorScheme();
+            };
+            const setColorScheme = (scheme) => {
+                currentColorScheme = scheme;
+                updateColorScheme();
+            };
+            const updateColorScheme = () => {
+                const themeSuffix = currentTheme === 'dark' ? '-dark' : '-light';
+                document.body.className = document.body.className.replace(/.*-(light|dark)/g, '');
+                document.body.classList.add(`${currentColorScheme}${themeSuffix}`);
+            };
+            const disableActions = () => {
+                $$('.message-action-button, .send-button').forEach(button => button.classList.add('disabled'));
+                promptTextbox.classList.add('disabled');
+            };
+            const enableActions = () => {
+                $$('.message-action-button, .send-button').forEach(button => button.classList.remove('disabled'));
+                promptTextbox.classList.remove('disabled');
+            };
+            const addMessage = (message, isUser) => {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', isUser ? 'user-message' : 'ai-message');
+                const messageContent = document.createElement('div');
+                messageContent.classList.add('message-content');
+                messageContent.innerHTML = marked.parse(message);
+                messageElement.appendChild(messageContent);
+                highlightCodeBlocks(messageContent);
+                styleTables(messageContent);
+                const messageActions = document.createElement('div');
+                messageActions.classList.add('message-actions');
+                if (!isUser) {
+                    const regenerateButton = document.createElement('button');
+                    regenerateButton.innerHTML = '<i class="fas fa-redo-alt"></i>';
+                    regenerateButton.setAttribute('title', 'Regenerate');
+                    regenerateButton.classList.add('message-action-button');
+                    regenerateButton.addEventListener('click', () => regenerateResponse(messageElement));
+                    messageActions.appendChild(regenerateButton);
+                }
+                const editButton = document.createElement('button');
+                editButton.innerHTML = '<i class="fas fa-edit"></i>';
+                editButton.setAttribute('title', 'Edit');
+                editButton.classList.add('message-action-button');
+                editButton.addEventListener('click', () => editMessage(messageElement));
+                messageActions.appendChild(editButton);
+                const deleteButton = document.createElement('button');
+                deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+                deleteButton.setAttribute('title', 'Delete');
+                deleteButton.classList.add('message-action-button');
+                deleteButton.addEventListener('click', () => deleteMessage(messageElement));
+                messageActions.appendChild(deleteButton);
+                messageElement.appendChild(messageActions);
+                chatArea.appendChild(messageElement);
+                chatArea.scrollTop = chatArea.scrollHeight;
+                disableActions();
+                return messageContent;
+            };
+            const deleteMessage = (messageElement) => {
+                const messageIndex = Array.from(chatArea.children).indexOf(messageElement);
+                messages.splice(messageIndex, 1);
+                messageElement.remove();
+            };
+            const highlightCodeBlocks = (messageContent) => {
+                messageContent.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightElement(block);
+                    const parent = block.parentNode;
+                    parent.classList.add('codeblock');
+                    const copyButton = document.createElement('button');
+                    copyButton.classList.add('copy-button');
+                    copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+                    copyButton.title = 'Copy code';
+                    copyButton.addEventListener('click', () => {
+                        navigator.clipboard.writeText(block.textContent);
+                    });
+                    parent.appendChild(copyButton);
+                });
+            };
+            const styleTables = (messageContent) => {
+                messageContent.querySelectorAll('table').forEach((table) => {
+                    table.querySelectorAll('th, td').forEach((cell) => {
+                        cell.style.border = `1px solid var(--md-sys-color-outline)`;
+                        cell.style.padding = '8px';
+                        cell.style.textAlign = 'left';
+                    });
+                    table.querySelectorAll('th').forEach((header) => {
+                        header.style.backgroundColor = `var(--md-sys-color-primary-container)`;
+                        header.style.color = `var(--md-sys-color-on-primary-container)`;
+                    });
+                });
+            };
+            const editMessage = (messageElement) => {
+                const messageContent = messageElement.querySelector('.message-content');
+                const originalContent = messageElement.dataset.rawContent;
+                const messageIndex = Array.from(chatArea.children).indexOf(messageElement);
+                const editBoxContainer = document.createElement('div');
+                const editBox = document.createElement('textarea');
+                editBoxContainer.classList.add('edit-box-container');
+                editBox.value = originalContent;
+                editBox.classList.add('prompt-textbox');
+                editBoxContainer.style.width = messageContent.offsetWidth + 'px';
+                editBox.style.width = 'calc(100% - 24px)';
+                editBox.rows = Math.min(originalContent.split('\n').length, 10);
+                editBoxContainer.appendChild(editBox);
+                messageContent.replaceWith(editBoxContainer);
+                editBox.focus();
+                const resetMessageContent = (newContent) => {
+                    const newMessageContent = document.createElement('div');
+                    newMessageContent.classList.add('message-content');
+                    newMessageContent.innerHTML = marked.parse(newContent);
+                    highlightCodeBlocks(newMessageContent);
+                    styleTables(newMessageContent);
+                    editBoxContainer.replaceWith(newMessageContent);
+                    messageElement.removeChild(editActions);
+                };
+                let saveChanges = () => {
+                    const newContent = editBox.value;
+                    messages[messageIndex].content = newContent;
+                    messageElement.dataset.rawContent = newContent;
+                    resetMessageContent(newContent);
+                    saveChanges = null;
+                    cancelEditing = null;
+                };
+                let cancelEditing = () => {
+                    resetMessageContent(originalContent);
+                    saveChanges = null;
+                    cancelEditing = null;
+                };
+                const saveButton = document.createElement('button');
+                saveButton.innerHTML = '<i class="fas fa-save"></i>';
+                saveButton.addEventListener('click', () => {
+                    saveChanges();
+                });
+                const cancelButton = document.createElement('button');
+                cancelButton.innerHTML = '<i class="fas fa-times"></i>';
+                cancelButton.addEventListener('click', cancelEditing);
+                const editActions = document.createElement('div');
+                editActions.classList.add('edit-actions');
+                editActions.appendChild(saveButton);
+                editActions.appendChild(cancelButton);
+                editBoxContainer.appendChild(editActions);
+                const handleOutsideClick = (event) => {
+                    if (!messageElement.contains(event.target)) {
+                        if (cancelEditing) {
+                            cancelEditing();
+                        }
+                        document.removeEventListener('click', handleOutsideClick);
+                    }
+                };
+                document.addEventListener('click', handleOutsideClick);
+                editBox.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' && !event.shiftKey) {
+                        event.preventDefault();
+                        if (saveChanges) {
+                            saveChanges();
+                        }
+                        document.removeEventListener('click', handleOutsideClick);
+                    } else if (event.key === 'Escape') {
+                        if (cancelEditing) {
+                            cancelEditing();
+                        }
+                        document.removeEventListener('click', handleOutsideClick);
+                    }
+                });
+            };
+            const cancelStream = async () => {
+                if (currentReader) {
+                    await currentReader.cancel();
+                    currentReader = null;
+                }
+            };
+            const buildGenerationParameters = () => {
+                const paramsToSend = {};
+                for (const [key, defaultValue] of Object.entries(generationParameters)) {
+                    const inputElement = $(`#${key}`);
+                    let currentValue;
+                    if (inputElement.type === 'checkbox') {
+                        currentValue = inputElement.checked;
+                    } else if (inputElement.classList.contains('list-input')) {
+                        currentValue = Array.from(inputElement.querySelectorAll('.list-item-input')).map(item => item.value);
+                    } else {
+                        currentValue = parseFloat(inputElement.value);
+                    }
+                    if (currentValue !== defaultValue) {
+                        paramsToSend[key] = currentValue;
+                    }
+                }
+                return paramsToSend;
+            };
+            const sendMessage = async () => {
+                if (!apiUrl) {
+                  showSnackbar('Please connect to a provider first.', 'error');
+                  return;
+                }
+                const message = promptTextbox.value;
+                if (message.trim() === '') return;
+                disableActions();
+                sendButton.style.display = 'none';
+                cancelButton.style.display = 'flex';
+                const userMessage = addMessage(message, true);
+                userMessage.parentNode.dataset.rawContent = message;
+                messages.push({ role: 'user', content: message });
+                promptTextbox.value = '';
+                const aiMessageContent = addMessage('', false);
+                const params = buildGenerationParameters();
+                try {
+                    const response = await fetch(`${apiUrl}/chat/completions`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: 'gpt-3.5-turbo',
+                            messages: [
+                                { role: 'system', content: systemPrompt },
+                                ...messages
+                            ],
+                            stream: true,
+                            ...params
+                        })
+                    });
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            showSnackbar('Incorrect API key provided.', 'error');
+                        } else {
+                            const errorText = await response.text();
+                            showSnackbar(`Error: ${response.status} - ${errorText}`, 'error');
+                        }
+                        return;
+                    }
+                    currentReader = response.body.getReader();
+                    const decoder = new TextDecoder();
+                    let buffer = '';
+                    let fullResponse = '';
+                    while (true) {
+                        const { done, value } = await currentReader.read();
+                        if (done) {
+                            break;
+                        }
+                        buffer += decoder.decode(value, { stream: true });
+                        let boundary = buffer.indexOf('\n\n');
+                        while (boundary !== -1) {
+                            const chunk = buffer.substring(0, boundary);
+                            buffer = buffer.substring(boundary + 2);
+                            if (chunk.startsWith('data: ')) {
+                                const data = chunk.substring(6);
+                                if (data !== '[DONE]') {
+                                    const json = JSON.parse(data);
+                                    if (json.choices[0].delta.content) {
+                                        const content = json.choices[0].delta.content;
+                                        fullResponse += content;
+                                        aiMessageContent.innerHTML = marked.parse(fullResponse);
+                                        aiMessageContent.parentNode.dataset.rawContent = fullResponse;
+                                        highlightCodeBlocks(aiMessageContent);
+                                        styleTables(aiMessageContent);
+                                    }
+                                }
+                            }
+                            boundary = buffer.indexOf('\n\n');
+                        }
+                        chatArea.scrollTop = chatArea.scrollHeight;
+                    }
+                    messages.push({ role: 'assistant', content: fullResponse });
+                } catch (error) {
+                    if (error.name !== 'AbortError') {
+                        console.error('Error:', error);
+                        showSnackbar(`Error: ${error.message}`, 'error');
+                    }
+                } finally {
+                    enableActions();
+                    sendButton.style.display = 'flex';
+                    cancelButton.style.display = 'none';
+                }
+            };
+            const regenerateResponse = async (messageElement) => {
+                disableActions();
+                sendButton.style.display = 'none';
+                cancelButton.style= 'flex';
+                const messageIndex = Array.from(chatArea.children).indexOf(messageElement);
+                const messageContent = messageElement.querySelector('.message-content');
+                const userMessageIndex = messageIndex - 1;
+                messages = messages.slice(0, userMessageIndex + 1);
+                messageContent.innerHTML = '';
+                const params = buildGenerationParameters();
+                try {
+                    const response = await fetch(`${apiUrl}/chat/completions`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: 'gpt-3.5-turbo',
+                            messages: [
+                                { role: 'system', content: systemPrompt },
+                                ...messages
+                            ],
+                            stream: true,
+                            ...params
+                        })
+                    });
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        showSnackbar(`Error: ${response.status} - ${errorText}`, 'error');
+                        return;
+                    }
+                    currentReader = response.body.getReader();
+                    const decoder = new TextDecoder();
+                    let buffer = '';
+                    let fullResponse = '';
+                    while (true) {
+                        const { done, value } = await currentReader.read();
+                        if (done) {
+                            break;
+                        }
+                        buffer += decoder.decode(value, { stream: true });
+                        let boundary = buffer.indexOf('\n\n');
+                        while (boundary !== -1) {
+                            const chunk = buffer.substring(0, boundary);
+                            buffer = buffer.substring(boundary + 2);
+                            if (chunk.startsWith('data: ')) {
+                                const data = chunk.substring(6);
+                                if (data !== '[DONE]') {
+                                    const json = JSON.parse(data);
+                                    if (json.choices[0].delta.content) {
+                                        const content = json.choices[0].delta.content;
+                                        fullResponse += content;
+                                        messageContent.innerHTML = marked.parse(fullResponse);
+                                        highlightCodeBlocks(messageContent);
+                                        styleTables(messageContent);
+                                    }
+                                }
+                            }
+                            boundary = buffer.indexOf('\n\n');
+                        }
+                        chatArea.scrollTop = chatArea.scrollHeight;
+                    }
+                    messages[messageIndex] = { role: 'assistant', content: fullResponse };
+                } catch (error) {
+                    if (error.name !== 'AbortError') {
+                        console.error('Error:', error);
+                        showSnackbar(`Error: ${error.message}`, 'error');
+                    }
+                } finally {
+                    enableActions();
+                    sendButton.style.display = 'flex';
+                    cancelButton.style.display = 'none';
+                }
+            };
+            const fetchModels = () => {
+    if (!apiUrl) {
+        showSnackbar('No URL provided.', 'error');
+        return;
+    }
+    fetch(`${apiUrl}/models`, {
+        headers: {
+            'Authorization': `Bearer ${apiKey}`
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            if (response.status === 401) {
+                return response.text().then(text => {
+                    throw new Error('Incorrect API key provided.');
+                });
+            } else {
+                return response.text().then(text => {
+                    throw new Error(`Failed to connect to the LLM provider: ${response.status} - ${text}`);
+                });
+            }
+        }
+        return response.json();
+    })
+    .then(data => {
+        showSnackbar('Connected to LLM provider!', 'success');
+    })
+    .catch(error => {
+        showSnackbar('Failed to connect to LLM provider (wrong API key or URL perhaps?)', 'error');
+    });
+};
+            const closeDialog = (dialog) => {
+              dialog.classList.remove('open');
+              setTimeout(() => {
+                dialog.style.display = 'none';
+                document.body.style.overflow = '';
+                $('.container').classList.remove('dialog-open');
+              }, 300);
+            };
+            const showDialog = (dialog) => {
+              dialog.style.display = 'block';
+              setTimeout(() => {
+                dialog.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                $('.container').classList.add('dialog-open');
+              }, 10);
+            }
+            const createSnackbar = (message, type = 'info') => {
+                const snackbar = document.createElement('div');
+                snackbar.classList.add('snackbar');
+                const snackbarContent = document.createElement('div');
+                snackbarContent.classList.add('snackbar-content');
+                const snackbarIcon = document.createElement('i');
+                snackbarIcon.classList.add('fas', 'snackbar-icon');
+                const snackbarMessage = document.createElement('span');
+                snackbarMessage.classList.add('snackbar-message');
+                snackbarMessage.textContent = message;
+                const snackbarCloseButton = document.createElement('button');
+                snackbarCloseButton.classList.add('snackbar-close');
+                snackbarCloseButton.setAttribute('aria-label', 'Close');
+                snackbarCloseButton.innerHTML = '<i class="fas fa-times"></i>';
+                snackbarCloseButton.addEventListener('click', () => {
+                    hideSnackbar(snackbar);
+                });
+                switch (type) {
+                    case 'error':
+                        snackbarIcon.classList.add('fa-exclamation-circle', 'snackbar-icon-error');
+                        break;
+                    case 'success':
+                        snackbarIcon.classList.add('fa-check-circle', 'snackbar-icon-success');
+                        break;
+                    case 'warning':
+                        snackbarIcon.classList.add('fa-exclamation-triangle', 'snackbar-icon-warning');
+                        break;
+                    default:
+                        snackbarIcon.classList.add('fa-info-circle', 'snackbar-icon-info');
+                        break;
+                }
+                snackbarContent.appendChild(snackbarIcon);
+                snackbarContent.appendChild(snackbarMessage);
+                snackbar.appendChild(snackbarContent);
+                snackbar.appendChild(snackbarCloseButton);
+                snackbarContainer.appendChild(snackbar);
+                setTimeout(() => {
+                    snackbar.classList.add('show');
+                }, 10);
+                snackbar.dataset.timeout = setTimeout(() => {
+                    hideSnackbar(snackbar);
+                }, 5000);
+                return snackbar;
+            };
+            const showSnackbar = (message, type = 'info') => {
+            const snackbar = createSnackbar(message, type);
+            snackbarContainer.appendChild(snackbar);
+            setTimeout(() => {
+                snackbar.classList.add('show');
+                updateSnackbarPositions();
+            }, 10);
+            snackbar.dataset.timeout = setTimeout(() => {
+                hideSnackbar(snackbar);
+            }, 5000);
+        };
+        const hideSnackbar = (snackbar) => {
+            clearTimeout(snackbar.dataset.timeout);
+            snackbar.classList.remove('show');
+            snackbar.classList.add('hide');
+            setTimeout(() => {
+                snackbar.remove();
+                updateSnackbarPositions();
+            }, 300);
+        };
+        const updateSnackbarPositions = () => {
+            const snackbars = snackbarContainer.querySelectorAll('.snackbar');
+            let topOffset = 20;
+            snackbars.forEach((snackbar) => {
+                snackbar.style.top = `${topOffset}px`;
+                topOffset += snackbar.offsetHeight + 10;
+            });
+        };
+            const addListItem = (listId, value = '') => {
+                const listInput = $(`#${listId}`);
+                const listItem = document.createElement('div');
+                listItem.classList.add('list-item');
+                const listItemInput = document.createElement('input');
+                listItemInput.type = 'text';
+                listItemInput.classList.add('list-item-input');
+                listItemInput.value = value;
+                const removeButton = document.createElement('button');
+                removeButton.classList.add('list-item-remove');
+                removeButton.innerHTML = '<i class="fas fa-times"></i>';
+                removeButton.addEventListener('click', () => {
+                    listInput.removeChild(listItem);
+                });
+                listItem.appendChild(listItemInput);
+                listItem.appendChild(removeButton);
+                listInput.appendChild(listItem);
+            };
+            const populateParameters = () => {
+                for (const [key, defaultValue] of Object.entries(generationParameters)) {
+                    const inputElement = $(`#${key}`);
+                    if (inputElement) {
+                        if (inputElement.type === 'checkbox') {
+                            inputElement.checked = defaultValue;
+                        } else if (inputElement.classList.contains('list-input')) {
+                            defaultValue.forEach(value => addListItem(key, value));
+                        } else {
+                            inputElement.value = defaultValue;
+                        }
+                    }
+                }
+            };
+            const exportChat = () => {
+                const filename = `chat_export_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
+                const data = JSON.stringify({
+                    systemPrompt: systemPrompt,
+                    messages: messages
+                }, null, 2);
+                const blob = new Blob([data], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            };
+            const newChat = () => {
+                messages = [];
+                chatArea.innerHTML = '';
+                showSnackbar('Cleared all messages.');
+            };
+            const adjustTooltipPosition = () => {
+                const tooltips = $$('.tooltip');
+                tooltips.forEach(tooltip => {
+                    const tooltiptext = tooltip.querySelector('.tooltiptext');
+                    const buttonRect = tooltip.querySelector('button').getBoundingClientRect();
+                    const tooltiptextRect = tooltiptext.getBoundingClientRect();
+                    const viewportHeight = window.innerHeight;
+                    tooltiptext.classList.remove('top', 'bottom');
+                    if (buttonRect.bottom + tooltiptextRect.height > viewportHeight) {
+                        tooltiptext.classList.add('top');
+                    } else {
+                        tooltiptext.classList.add('bottom');
+                    }
+                });
+                const parameterTooltips = $$('.parameter-tooltip');
+                parameterTooltips.forEach(tooltiptext => {
+                    const tooltip = tooltiptext.closest('.tooltip');
+                    const inputRect = tooltip.querySelector('.parameter-label').getBoundingClientRect();
+                    const tooltiptextRect = tooltiptext.getBoundingClientRect();
+                    const viewportHeight = window.innerHeight;
+                    tooltiptext.classList.remove('top', 'bottom');
+                    if (inputRect.top - tooltiptextRect.height < 0) {
+                        tooltiptext.classList.add('bottom');
+                    } else {
+                        tooltiptext.classList.add('top');
+                    }
+                });
+            };
+            window.addEventListener('resize', adjustTooltipPosition);
+            themeLightRadio.addEventListener('change', () => setTheme('light'));
+            themeDarkRadio.addEventListener('change', () => setTheme('dark'));
+            colorSchemeSelect.addEventListener('change', () => setColorScheme(colorSchemeSelect.value));
+            setTheme(currentTheme);
+            setColorScheme(currentColorScheme);
+            settingsTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    settingsTabs.forEach(t => t.classList.remove('active'));
+                    settingsTabContents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    const tabId = tab.dataset.tab;
+                $(`#${tabId}`).classList.add('active');
+            });
+        });
+        document.addEventListener('click', (event) => {
+            const target = event.target;
+            if (target.classList.contains('dialog-close')) {
+                closeDialog(target.closest('.dialog'));
+            } else if (target.closest('#connect-button')) {
+                showDialog(connectDialog);
+            } else if (target.closest('#settings-button')) {
+                showDialog(settingsDialog);
+            } else if (target.id === 'connect-confirm') {
+                apiUrl = apiURLInput.value;
+                apiKey = apiKEYInput.value;
+                fetchModels();
+                closeDialog(connectDialog);
+            } else if (target.id === 'settings-save') {
+                systemPrompt = systemPromptInput.value;
+                for (const key in generationParameters) {
+                  const inputElement = $(`#${key}`);
+                  if (inputElement.type === 'checkbox') {
+                      generationParameters[key] = inputElement.checked;
+                  } else if (inputElement.classList.contains('list-input')) {
+                      generationParameters[key] = Array.from(inputElement.querySelectorAll('.list-item-input')).map(item => item.value);
+                  } else {
+                      generationParameters[key] = parseFloat(inputElement.value);
+                  }
+                }
+                showSnackbar('Settings saved', 'success');
+                closeDialog(settingsDialog);
+            } else if (target.id === 'cancel-button') {
+                cancelStream();
+            } else if (target.classList.contains('list-add-button')) {
+                const listId = target.dataset.listId;
+                addListItem(listId);
+            } else if (target.closest('#export-chat-button')) {
+                exportChat();
+            } else if (target.closest('#new-chat-button')) {
+                newChat();
+            }
+        });
+        sendButton.addEventListener('click', sendMessage);
+        promptTextbox.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+        const addListAddButton = (listId) => {
+            const listInput = $(`#${listId}`);
+            const addButton = document.createElement('button');
+            addButton.classList.add('list-add-button');
+            addButton.textContent = 'Add';
+            addButton.dataset.listId = listId;
+            listInput.parentNode.appendChild(addButton);
+        };
+        addListAddButton('dry_sequence_breakers');
+        populateParameters();
+        adjustTooltipPosition();
+    </script>
+</body>
+</html>
