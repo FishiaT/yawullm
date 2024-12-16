@@ -2218,10 +2218,12 @@
                 }
             };
             const exportChat = () => {
-                const filename = `chat_export_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
+                const changedParams = buildGenerationParameters();
+                const filename = `yawu_export_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
                 const data = JSON.stringify({
                     systemPrompt: systemPrompt,
-                    messages: messages
+                    messages: messages,
+                    parameters: changedParams
                 }, null, 2);
                 const blob = new Blob([data], {
                     type: 'application/json'
@@ -2234,6 +2236,64 @@
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
+            };
+            const importChat = (file) => {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        if (data.messages && Array.isArray(data.messages)) {
+                            messages = data.messages;
+                            systemPrompt = data.systemPrompt || '';
+                            systemPromptInput.value = systemPrompt;
+                            chatArea.innerHTML = '';
+                            messages.forEach(message => {
+                                const messageContent = addMessage(message.content, message.role === 'user');
+                                messageContent.parentNode.dataset.rawContent = message.content;
+                            });
+                            if (data.parameters) {
+                                for (const [key, value] of Object.entries(data.parameters)) {
+                                    const inputElement = $(`#${key}`);
+                                    if (inputElement) {
+                                        if (inputElement.type === 'checkbox') {
+                                            inputElement.checked = value;
+                                        } else if (inputElement.classList.contains('list-input')) {
+                                            $(`#${key}`).innerHTML = '';
+                                            if (Array.isArray(value)) {
+                                                value.forEach(item => addListItem(key, item));
+                                            }
+                                        } else {
+                                            inputElement.value = value;
+                                        }
+                                        generationParameters[key] = value;
+                                    }
+                                }
+                            }
+                            showSnackbar('Imported successfully!', 'success');
+                        } else {
+                            showSnackbar('Invalid chat data', 'error');
+                        }
+                    } catch (error) {
+                        console.error('Error importing chat:', error);
+                        showSnackbar('Failed to import chat', 'error');
+                    }
+                };
+                reader.onerror = () => {
+                    showSnackbar('Failed to read file', 'error');
+                };
+                reader.readAsText(file);
+            };
+            const handleFileDrop = (event) => {
+                event.preventDefault();
+                const file = event.dataTransfer.files[0];
+                if (file && file.type === 'application/json') {
+                    importChat(file);
+                } else {
+                    showSnackbar('Please drop a valid JSON file.', 'error');
+                }
+            };
+            const handleDragOver = (event) => {
+                event.preventDefault();
             };
             const newChat = () => {
                 messages = [];
@@ -2343,6 +2403,8 @@
             };
             addListAddButton('dry_sequence_breakers');
             populateParameters();
+            chatArea.addEventListener('drop', handleFileDrop);
+            chatArea.addEventListener('dragover', handleDragOver);
             adjustTooltipPosition();
         </script>
     </body>
