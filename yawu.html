@@ -1292,7 +1292,7 @@
             <div class="header-right">
                 <div class="tooltip">
                     <button id="new-chat-button"><i class="fas fa-plus"></i></button>
-                    <span class="tooltiptext bottom">Start Over</span>
+                    <span class="tooltiptext bottom">Clear</span>
                 </div>
                 <div class="tooltip">
                     <button id="export-chat-button"><i class="fas fa-download"></i></button>
@@ -1608,6 +1608,12 @@
                 deleteButton.setAttribute('title', 'Delete');
                 deleteButton.classList.add('message-action-button');
                 deleteButton.addEventListener('click', () => deleteMessage(messageElement));
+                const copyRawButton = document.createElement('button');
+                copyRawButton.innerHTML = '<i class="fas fa-clipboard"></i>';
+                copyRawButton.setAttribute('title', 'Copy');
+                copyRawButton.classList.add('message-action-button');
+                copyRawButton.addEventListener('click', () => copyRawContent(messageElement));
+                messageActions.appendChild(copyRawButton); 
                 messageActions.appendChild(deleteButton);
                 messageElement.appendChild(messageActions);
                 chatArea.appendChild(messageElement);
@@ -1653,6 +1659,10 @@
                 const originalContent = messageElement.dataset.rawContent;
                 const messageIndex = Array.from(chatArea.children).indexOf(messageElement);
                 const editBoxContainer = document.createElement('div');
+                const copyRawButton = messageElement.querySelector('.fa-clipboard').closest('button');
+                if (copyRawButton) {
+                    copyRawButton.remove();
+                }
                 const editBox = document.createElement('textarea');
                 editBoxContainer.classList.add('edit-box-container');
                 editBox.value = originalContent;
@@ -1721,6 +1731,11 @@
                         document.removeEventListener('click', handleOutsideClick);
                     }
                 });
+            };
+            const copyRawContent = (messageElement) => {
+                const rawContent = messageElement.dataset.rawContent;
+                navigator.clipboard.writeText(rawContent);
+                showSnackbar('Copied', 'success');
             };
             const cancelStream = async () => {
                 if (currentReader) {
@@ -2270,6 +2285,7 @@
                                 }
                             }
                             showSnackbar('Imported successfully!', 'success');
+                            enableActions();
                         } else {
                             showSnackbar('Invalid chat data', 'error');
                         }
