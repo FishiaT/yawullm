@@ -6,8 +6,7 @@
     <title>yawu 0.1</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -384,6 +383,9 @@
             --md-sys-color-inverse-surface: #e0e0e0;
             --md-sys-color-inverse-on-surface: #101010;
         }
+        body, .dialog-input, .dialog-button, .prompt-textbox, .list-item-input, .parameter-input, .parameter-input-checkbox {
+            font: 400 14px/1.5 var(--md-ref-typeface-plain);
+        }
         .color-scheme-select {
             background-color: var(--md-sys-color-surface-container);
             color: var(--md-sys-color-on-surface);
@@ -405,9 +407,6 @@
         .color-scheme-select:focus {
             box-shadow: 0px 0px 0px 2px var(--md-sys-color-primary);
             outline: none;
-        }
-        body, .dialog-input, .dialog-button, .prompt-textbox {
-            font: 400 14px/1.5 var(--md-ref-typeface-plain);
         }
         body {
             background-color: var(--md-sys-color-background);
@@ -455,6 +454,35 @@
             background-color: var(--md-sys-color-surface);
             border-radius: 24px;
             z-index: 10;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            margin-right: auto;
+            order: 1;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            order: 2;
+        }
+        .model-select {
+            background: none;
+            border: none;
+            font-family: var(--md-ref-typeface-plain);
+            font-size: 14px;
+            color: var(--md-sys-color-on-surface);
+            margin-left: 16px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2344474E' d='M1.41 0L6 4.58L10.59 0L12 1.41L6 7.41L0 1.41z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 12px 8px;
+            cursor: pointer;
+            padding: 12px 16px;
+            border-radius: 20px;
         }
         .tooltip {
             position: relative;
@@ -620,10 +648,6 @@
         .message-content tr:last-child td:last-child {
             border-bottom-right-radius: 16px;
         }
-        .message-content th {
-            background-color: var(--md-sys-color-primary-container);
-            color: var(--md-sys-color-on-primary-container);
-        }
         .message-actions {
             display: flex;
             gap: 8px;
@@ -647,10 +671,6 @@
             background-color: var(--md-sys-color-surface);
             border-radius: 24px;
             z-index: 10;
-        }
-        .prompt-textbox, .dialog-input, .list-item-input, .parameter-input, .parameter-input-checkbox {
-            font-family: var(--md-ref-typeface-plain);
-            font-size: 14px;
         }
         .prompt-textbox, .dialog-input, .list-item-input, .parameter-input {
             background-color: var(--md-sys-color-surface-container);
@@ -686,10 +706,7 @@
             color: var(--md-sys-color-on-primary);
             background-color: var(--md-sys-color-primary);
         }
-        .send-button i {
-            pointer-events: none;
-        }
-        .cancel-button i {
+        .send-button i, .cancel-button i {
             pointer-events: none;
         }
         .cancel-button {
@@ -722,8 +739,8 @@
             transform: translate(-50%, -50%) scale(0.8);
         }
         .dialog.open {
-          opacity: 1;
-          transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
         }
         .dialog-header {
             display: flex;
@@ -947,53 +964,50 @@
             margin-right: 16px;
             padding: 8px 12px;
         }
-        .md-checkbox {
-            display: inline-flex;
-            align-items: center;
-            cursor: pointer;
-            margin-right: 16px;
-            user-select: none;
-        }
-        .md-checkbox__input {
-            display: none;
-        }
-        .md-checkbox__box {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background-color: var(--md-sys-color-surface-container-highest);
-            border: 2px solid var(--md-sys-color-on-surface-variant);
-            border-radius: 4px;
+        .md-switch {
             position: relative;
-            transition: background-color 0.2s, border-color 0.2s;
+            display: inline-block;
+            width: 40px;
+            height: 24px;
+            margin-right: 16px;
+            cursor: pointer;
         }
-        .md-checkbox__checkmark {
+        .md-switch__input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .md-switch__track {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            width: 14px;
-            height: 14px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--md-sys-color-surface-container-highest);
+            border-radius: 16px;
+            transition: background-color 0.2s, box-shadow 0.2s;
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: transform 0.2s;
         }
-        .md-checkbox__checkmark:after {
-            content: '';
-            display: block;
-            width: 4px;
-            height: 8px;
-            border: solid var(--md-sys-color-on-primary);
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
+        .md-switch__handle {
+            position: relative;
+            display: inline-block;
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            background-color: var(--md-sys-color-on-surface-variant);
+            border-radius: 50%;
+            transition: transform 0.2s, background-color 0.2s;
         }
-        .md-checkbox__input:checked + .md-checkbox__box {
+        .md-switch__input:checked + .md-switch__track {
             background-color: var(--md-sys-color-primary);
-            border-color: var(--md-sys-color-primary);
         }
-        .md-checkbox__input:checked + .md-checkbox__box .md-checkbox__checkmark {
-            transform: translate(-50%, -50%) scale(1);
+        .md-switch__input:checked + .md-switch__track .md-switch__handle {
+            transform: translateX(16px);
+            background-color: var(--md-sys-color-on-primary);
+        }
+        .md-switch__input:focus + .md-switch__track {
+            box-shadow: 0 0 0 2px var(--md-sys-color-primary);
         }
         .list-input {
             flex: 1;
@@ -1044,9 +1058,9 @@
             border-radius: 20px;
         }
         .dialog-content-scrollable::-webkit-scrollbar-thumb {
-            background-color: var(--md-sys-color-outline); 
-            border-radius: 20px; 
-            border: 3px solid var(--md-sys-color-outline-variant); 
+            background-color: var(--md-sys-color-outline);
+            border-radius: 20px;
+            border: 3px solid var(--md-sys-color-outline-variant);
         }
         .dialog-content-scrollable::-webkit-scrollbar-thumb:hover {
             background-color: var(--md-sys-color-on-surface-variant);
@@ -1109,7 +1123,7 @@
             background-color: var(--md-sys-color-primary-container);
             transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
         }
-        .settings-tab-content        {
+        .settings-tab-content {
             display: none;
             height: 100%;
             padding: 16px 0;
@@ -1121,24 +1135,24 @@
         }
         @keyframes fadeIn {
             from {
-              opacity: 0;
+                opacity: 0;
             }
             to {
-              opacity: 1;
+                opacity: 1;
             }
         }
         #connect-dialog {
-          width: 400px;
+            width: 400px;
         }
         #connect-dialog .dialog-content-scrollable {
-          height: auto;
-          max-height: 400px;
+            height: auto;
+            max-height: 400px;
         }
         #settings-dialog {
-          width: 550px;
+            width: 550px;
         }
         #settings-dialog .dialog-content-scrollable {
-          height: calc(80vh - 220px);
+            height: calc(80vh - 220px);
         }
         .snackbar-icon-info {
             color: var(--md-sys-color-primary);
@@ -1152,26 +1166,158 @@
         .snackbar-icon-warning {
             color: #ed6c02;
         }
+        .custom-select-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .custom-select {
+            background-color: var(--md-sys-color-surface-container);
+            color: var(--md-sys-color-on-surface);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+        .custom-select-trigger {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: box-shadow 0.2s ease;
+        }
+        .custom-select-value {
+            font-family: var(--md-ref-typeface-plain);
+            font-size: 14px;
+        }
+        .custom-select-icon {
+            margin-left: 8px;
+            color: var(--md-sys-color-on-surface-variant);
+            transition: transform 0.3s ease;
+        }
+        .custom-select:focus-within .custom-select-trigger, .custom-select.open .custom-select-trigger {
+            box-shadow: 0px 0px 0px 2px var(--md-sys-color-primary);
+            outline: none;
+            border-radius: 20px;
+        }
+        .custom-select.open .custom-select-icon {
+            transform: rotate(180deg);
+        }
+        .custom-select-options {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            width: 100%;
+            background-color: var(--md-sys-color-surface-container);
+            border: 1px solid var(--md-sys-color-outline);
+            border-radius: 20px;
+            z-index: 10;
+            display: none;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .custom-select-options::-webkit-scrollbar {
+            width: 12px;
+        }
+        .custom-select-options::-webkit-scrollbar-track {
+            background: var(--md-sys-color-outline-variant);
+            border-radius: 20px;
+        }
+        .custom-select-options::-webkit-scrollbar-thumb {
+            background-color: var(--md-sys-color-outline);
+            border-radius: 20px;
+            border: 3px solid var(--md-sys-color-outline-variant);
+        }
+        .custom-select-options::-webkit-scrollbar-thumb:hover {
+            background-color: var(--md-sys-color-on-surface-variant);
+        }
+        @supports (scrollbar-color: red blue) {
+            .custom-select-options {
+                scrollbar-color: var(--md-sys-color-outline) var(--md-sys-color-outline-variant);
+                scrollbar-width: thin;
+            }
+        }
+        .custom-select.open .custom-select-options {
+            display: block;
+            animation: growDown 300ms ease-in-out forwards;
+            transform-origin: top center;
+        }
+        .custom-select-option {
+            padding: 12px 16px;
+            cursor: pointer;
+            font-family: var(--md-ref-typeface-plain);
+            font-size: 14px;
+        }
+        .custom-select-option:hover, .custom-select-option.selected {
+            background-color: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+        }
+        @keyframes growDown {
+            0% {
+                transform: scaleY(0)
+            }
+            80% {
+                transform: scaleY(1.1)
+            }
+            100% {
+                transform: scaleY(1)
+            }
+        }
+        .custom-select-options::-webkit-scrollbar {
+            width: 12px;
+        }
+        .custom-select-options::-webkit-scrollbar-track {
+            background: var(--md-sys-color-outline-variant);
+            border-radius: 20px;
+        }
+        .custom-select-options::-webkit-scrollbar-thumb {
+            background-color: var(--md-sys-color-outline);
+            border-radius: 20px;
+            border: 3px solid var(--md-sys-color-outline-variant);
+        }
+        .custom-select-options::-webkit-scrollbar-thumb:hover {
+            background-color: var(--md-sys-color-on-surface-variant);
+        }
+        @supports (scrollbar-color: red blue) {
+            .custom-select-options {
+                scrollbar-color: var(--md-sys-color-outline) var(--md-sys-color-outline-variant);
+                scrollbar-width: thin;
+            }
+        }
     </style>
 </head>
 <body class="default-dark">
     <div class="container">
         <div class="header">
-            <div class="tooltip">
-                <button id="new-chat-button"><i class="fas fa-plus"></i></button>
-                <span class="tooltiptext bottom">New Chat</span>
+            <div class="header-right">
+                <div class="tooltip">
+                    <button id="new-chat-button"><i class="fas fa-plus"></i></button>
+                    <span class="tooltiptext bottom">Start Over</span>
+                </div>
+                <div class="tooltip">
+                    <button id="export-chat-button"><i class="fas fa-download"></i></button>
+                    <span class="tooltiptext bottom">Export</span>
+                </div>
+                <div class="tooltip">
+                    <button id="connect-button"><i class="fas fa-link"></i></button>
+                    <span class="tooltiptext bottom">Connect</span>
+                </div>
+                <div class="tooltip">
+                    <button id="settings-button"><i class="fas fa-cog"></i></button>
+                    <span class="tooltiptext bottom">Settings</span>
+                </div>
             </div>
-            <div class="tooltip">
-                <button id="export-chat-button"><i class="fas fa-download"></i></button>
-                <span class="tooltiptext bottom">Export</span>
-            </div>
-            <div class="tooltip">
-                <button id="connect-button"><i class="fas fa-link"></i></button>
-                <span class="tooltiptext bottom">Connect</span>
-            </div>
-            <div class="tooltip">
-                <button id="settings-button"><i class="fas fa-cog"></i></button>
-                <span class="tooltiptext bottom">Settings</span>
+            <div class="header-left">
+                <div class="custom-select-wrapper">
+                    <div class="custom-select" id="model-select" role="listbox" aria-labelledby="model-select-label">
+                        <div class="custom-select-trigger" tabindex="0" aria-expanded="false" aria-haspopup="listbox">
+                            <span class="custom-select-value" id="model-select-label"></span>
+                            <i class="fas fa-chevron-down custom-select-icon"></i>
+                        </div>
+                        <div class="custom-select-options" role="presentation">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="chat-wrapper">
@@ -1273,8 +1419,12 @@
                         <div class="parameter-row tooltip">
                             <label for="penalize_nl" class="parameter-label">Penalize Newline</label>
                             <div class="md-checkbox">
-                                <input type="checkbox" id="penalize_nl" class="md-checkbox__input parameter-input-checkbox" checked>
-                                <span class="md-checkbox__box"><span class="md-checkbox__checkmark"></span></span>
+                                <label class="md-switch">
+                                    <input type="checkbox" id="penalize_nl" class="md-switch__input parameter-input-checkbox" checked>
+                                    <span class="md-switch__track">
+                                        <span class="md-switch__handle"></span>
+                                    </span>
+                                </label>
                             </div>
                             <span class="parameter-tooltip bottom">Penalize newline tokens when applying the repeat penalty</span>
                         </div>
@@ -1335,8 +1485,7 @@
                         </div>
                         <div class="parameter-row tooltip">
                             <label for="dry_sequence_breakers" class="parameter-label">DRY Sequence Breakers</label>
-                            <div id="dry_sequence_breakers" class="list-input">
-                            </div>
+                            <div id="dry_sequence_breakers" class="list-input"></div>
                             <span class="parameter-tooltip bottom">Array of sequence breakers for DRY sampling</span>
                         </div>
                     </div>
@@ -1346,8 +1495,7 @@
                 <button id="settings-save" class="dialog-button">Save</button>
             </div>
         </div>
-        <div id="snackbar-container" class="snackbar-container">
-        </div>
+        <div id="snackbar-container" class="snackbar-container"></div>
         <script>
             let apiUrl = '';
             let apiKey = '';
@@ -1356,6 +1504,8 @@
             let currentReader;
             let currentTheme = 'dark';
             let currentColorScheme = 'default';
+            let availableModels = [];
+            let selectedModel = '';
             let generationParameters = {
                 temperature: 0.8,
                 top_k: 40,
@@ -1378,6 +1528,7 @@
                 dry_penalty_last_n: -1,
                 dry_sequence_breakers: ['\\n', ':', '"', '*']
             };
+            const defaultGenerationParameters = { ...generationParameters };
             const $ = document.querySelector.bind(document);
             const $$ = document.querySelectorAll.bind(document);
             const chatArea = $('#chat-area');
@@ -1399,6 +1550,12 @@
             const exportChatButton = $('#export-chat-button');
             const settingsTabs = $$('.settings-tab');
             const settingsTabContents = $$('.settings-tab-content');
+            const modelSelect = $('#model-select');
+            const customSelect = $('#model-select');
+            const customSelectTrigger = customSelect.querySelector('.custom-select-trigger');
+            const customSelectValue = customSelect.querySelector('.custom-select-value');
+            const customSelectOptionsContainer = customSelect.querySelector('.custom-select-options');
+            let isCustomSelectOpen = false;
             const setTheme = (theme) => {
                 document.body.classList.toggle('dark-theme', theme === 'dark');
                 currentTheme = theme;
@@ -1573,26 +1730,28 @@
             };
             const buildGenerationParameters = () => {
                 const paramsToSend = {};
-                for (const [key, defaultValue] of Object.entries(generationParameters)) {
+                for (const [key, value] of Object.entries(generationParameters)) {
                     const inputElement = $(`#${key}`);
-                    let currentValue;
-                    if (inputElement.type === 'checkbox') {
-                        currentValue = inputElement.checked;
-                    } else if (inputElement.classList.contains('list-input')) {
-                        currentValue = Array.from(inputElement.querySelectorAll('.list-item-input')).map(item => item.value);
-                    } else {
-                        currentValue = parseFloat(inputElement.value);
-                    }
-                    if (currentValue !== defaultValue) {
-                        paramsToSend[key] = currentValue;
+                    if (inputElement) {
+                        let currentValue;
+                        if (inputElement.type === 'checkbox') {
+                            currentValue = inputElement.checked;
+                        } else if (inputElement.classList.contains('list-input')) {
+                            currentValue = Array.from(inputElement.querySelectorAll('.list-item-input')).map(item => item.value);
+                        } else {
+                            currentValue = isNaN(parseFloat(inputElement.value)) ? inputElement.value : parseFloat(inputElement.value);
+                        }
+                        if (JSON.stringify(currentValue) !== JSON.stringify(defaultGenerationParameters[key])) {
+                            paramsToSend[key] = currentValue;
+                        }
                     }
                 }
                 return paramsToSend;
             };
             const sendMessage = async () => {
                 if (!apiUrl) {
-                  showSnackbar('Please connect to a provider first.', 'error');
-                  return;
+                    showSnackbar('Please connect to a provider first.', 'error');
+                    return;
                 }
                 const message = promptTextbox.value;
                 if (message.trim() === '') return;
@@ -1601,7 +1760,10 @@
                 cancelButton.style.display = 'flex';
                 const userMessage = addMessage(message, true);
                 userMessage.parentNode.dataset.rawContent = message;
-                messages.push({ role: 'user', content: message });
+                messages.push({
+                    role: 'user',
+                    content: message
+                });
                 promptTextbox.value = '';
                 const aiMessageContent = addMessage('', false);
                 const params = buildGenerationParameters();
@@ -1613,11 +1775,11 @@
                             'Authorization': `Bearer ${apiKey}`
                         },
                         body: JSON.stringify({
-                            model: 'gpt-3.5-turbo',
-                            messages: [
-                                { role: 'system', content: systemPrompt },
-                                ...messages
-                            ],
+                            model: selectedModel,
+                            messages: [{
+                                role: 'system',
+                                content: systemPrompt
+                            }, ...messages],
                             stream: true,
                             ...params
                         })
@@ -1636,11 +1798,16 @@
                     let buffer = '';
                     let fullResponse = '';
                     while (true) {
-                        const { done, value } = await currentReader.read();
+                        const {
+                            done,
+                            value
+                        } = await currentReader.read();
                         if (done) {
                             break;
                         }
-                        buffer += decoder.decode(value, { stream: true });
+                        buffer += decoder.decode(value, {
+                            stream: true
+                        });
                         let boundary = buffer.indexOf('\n\n');
                         while (boundary !== -1) {
                             const chunk = buffer.substring(0, boundary);
@@ -1663,7 +1830,10 @@
                         }
                         chatArea.scrollTop = chatArea.scrollHeight;
                     }
-                    messages.push({ role: 'assistant', content: fullResponse });
+                    messages.push({
+                        role: 'assistant',
+                        content: fullResponse
+                    });
                 } catch (error) {
                     if (error.name !== 'AbortError') {
                         console.error('Error:', error);
@@ -1678,7 +1848,7 @@
             const regenerateResponse = async (messageElement) => {
                 disableActions();
                 sendButton.style.display = 'none';
-                cancelButton.style= 'flex';
+                cancelButton.style = 'flex';
                 const messageIndex = Array.from(chatArea.children).indexOf(messageElement);
                 const messageContent = messageElement.querySelector('.message-content');
                 const userMessageIndex = messageIndex - 1;
@@ -1693,11 +1863,11 @@
                             'Authorization': `Bearer ${apiKey}`
                         },
                         body: JSON.stringify({
-                            model: 'gpt-3.5-turbo',
-                            messages: [
-                                { role: 'system', content: systemPrompt },
-                                ...messages
-                            ],
+                            model: selectedModel,
+                            messages: [{
+                                role: 'system',
+                                content: systemPrompt
+                            }, ...messages],
                             stream: true,
                             ...params
                         })
@@ -1712,11 +1882,16 @@
                     let buffer = '';
                     let fullResponse = '';
                     while (true) {
-                        const { done, value } = await currentReader.read();
+                        const {
+                            done,
+                            value
+                        } = await currentReader.read();
                         if (done) {
                             break;
                         }
-                        buffer += decoder.decode(value, { stream: true });
+                        buffer += decoder.decode(value, {
+                            stream: true
+                        });
                         let boundary = buffer.indexOf('\n\n');
                         while (boundary !== -1) {
                             const chunk = buffer.substring(0, boundary);
@@ -1738,7 +1913,10 @@
                         }
                         chatArea.scrollTop = chatArea.scrollHeight;
                     }
-                    messages[messageIndex] = { role: 'assistant', content: fullResponse };
+                    messages[messageIndex] = {
+                        role: 'assistant',
+                        content: fullResponse
+                    };
                 } catch (error) {
                     if (error.name !== 'AbortError') {
                         console.error('Error:', error);
@@ -1751,51 +1929,189 @@
                 }
             };
             const fetchModels = () => {
-    if (!apiUrl) {
-        showSnackbar('No URL provided.', 'error');
-        return;
-    }
-    fetch(`${apiUrl}/models`, {
-        headers: {
-            'Authorization': `Bearer ${apiKey}`
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            if (response.status === 401) {
-                return response.text().then(text => {
-                    throw new Error('Incorrect API key provided.');
+                if (!apiUrl) {
+                    showSnackbar('No URL provided.', 'error');
+                    return;
+                }
+                fetch(`${apiUrl}/models`, {
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`
+                    }
+                }).then(response => {
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            return response.text().then(text => {
+                                throw new Error('Incorrect API key provided.');
+                            });
+                        } else {
+                            return response.text().then(text => {
+                                throw new Error(`Failed to connect to the LLM provider: ${response.status} - ${text}`);
+                            });
+                        }
+                    }
+                    return response.json();
+                }).then(data => {
+                    availableModels = data.data.map(model => model.id);
+                    populateModelSelect();
+                    if (availableModels.length > 0) {
+                        setSelectedModel(availableModels[0]);
+                        modelSelect.addEventListener('change', () => {
+                            selectedModel = modelSelect.querySelector('.custom-select-value').textContent;
+                        });
+                    }
+                    showSnackbar('Connected to LLM provider!', 'success');
+                }).catch(error => {
+                    showSnackbar('Failed to connect to LLM provider (wrong API key or URL perhaps?)', 'error');
                 });
-            } else {
-                return response.text().then(text => {
-                    throw new Error(`Failed to connect to the LLM provider: ${response.status} - ${text}`);
+            };
+            const createCustomSelectOptions = () => {
+                customSelectOptionsContainer.innerHTML = '';
+                availableModels.forEach((model, index) => {
+                    const option = document.createElement('div');
+                    option.classList.add('custom-select-option');
+                    option.textContent = model;
+                    option.dataset.value = model;
+                    option.setAttribute('role', 'option');
+                    option.setAttribute('id', `model-select-option-${index}`);
+                    option.setAttribute('tabindex', '-1');
+                    if (model === selectedModel) {
+                        option.classList.add('selected');
+                        option.setAttribute('aria-selected', 'true');
+                        customSelectValue.textContent = model;
+                        customSelect.setAttribute('aria-activedescendant', `model-select-option-${index}`);
+                    } else {
+                        option.setAttribute('aria-selected', 'false');
+                    }
+                    option.addEventListener('click', () => {
+                        setSelectedModel(model);
+                        closeCustomSelect();
+                    });
+                    option.addEventListener('keydown', (event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            setSelectedModel(model);
+                            closeCustomSelect();
+                        }
+                    });
+                    customSelectOptionsContainer.appendChild(option);
                 });
-            }
-        }
-        return response.json();
-    })
-    .then(data => {
-        showSnackbar('Connected to LLM provider!', 'success');
-    })
-    .catch(error => {
-        showSnackbar('Failed to connect to LLM provider (wrong API key or URL perhaps?)', 'error');
-    });
-};
+            };
+            const setSelectedModel = (model) => {
+                if (selectedModel !== model) {
+                    selectedModel = model;
+                    customSelectValue.textContent = model;
+                    modelSelect.dispatchEvent(new Event('change'));
+                    const selectedOption = customSelectOptionsContainer.querySelector('.selected');
+                    if (selectedOption) {
+                        selectedOption.classList.remove('selected');
+                        selectedOption.setAttribute('aria-selected', 'false');
+                    }
+                    const newSelectedOption = customSelectOptionsContainer.querySelector(`[data-value="${model}"]`);
+                    newSelectedOption.classList.add('selected');
+                    newSelectedOption.setAttribute('aria-selected', 'true');
+                    customSelect.setAttribute('aria-activedescendant', newSelectedOption.id);
+                }
+            };
+            const openCustomSelect = () => {
+                if (!isCustomSelectOpen) {
+                    isCustomSelectOpen = true;
+                    customSelect.classList.add('open');
+                    customSelectTrigger.setAttribute('aria-expanded', 'true');
+                    const selectedOption = customSelectOptionsContainer.querySelector('.selected');
+                    if (selectedOption) {
+                        selectedOption.focus();
+                    }
+                }
+            };
+            const closeCustomSelect = () => {
+                if (isCustomSelectOpen) {
+                    isCustomSelectOpen = false;
+                    customSelect.classList.remove('open');
+                    customSelectTrigger.setAttribute('aria-expanded', 'false');
+                    customSelectTrigger.focus();
+                }
+            };
+            customSelectTrigger.addEventListener('click', () => {
+                if (isCustomSelectOpen) {
+                    closeCustomSelect();
+                } else {
+                    openCustomSelect();
+                }
+            });
+            customSelectTrigger.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    openCustomSelect();
+                    if (!customSelectOptionsContainer.querySelector('.selected')) {
+                        customSelectOptionsContainer.firstChild.focus();
+                    } else {
+                        const selectedOption = customSelectOptionsContainer.querySelector('.selected');
+                        if (selectedOption.nextSibling) {
+                            selectedOption.nextSibling.focus();
+                        }
+                    }
+                } else if (event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    openCustomSelect();
+                    if (!customSelectOptionsContainer.querySelector('.selected')) {
+                        customSelectOptionsContainer.lastChild.focus();
+                    } else {
+                        const selectedOption = customSelectOptionsContainer.querySelector('.selected');
+                        if (selectedOption.previousSibling) {
+                            selectedOption.previousSibling.focus();
+                        }
+                    }
+                } else if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    if (isCustomSelectOpen) {
+                        closeCustomSelect();
+                    } else {
+                        openCustomSelect();
+                    }
+                } else if (event.key === 'Escape') {
+                    closeCustomSelect();
+                }
+            });
+            customSelectOptionsContainer.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    const focusedOption = document.activeElement;
+                    if (focusedOption.nextSibling) {
+                        focusedOption.nextSibling.focus();
+                    }
+                } else if (event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    const focusedOption = document.activeElement;
+                    if (focusedOption.previousSibling) {
+                        focusedOption.previousSibling.focus();
+                    }
+                } else if (event.key === 'Escape') {
+                    closeCustomSelect();
+                }
+            });
+            document.addEventListener('click', (event) => {
+                if (!customSelect.contains(event.target)) {
+                    closeCustomSelect();
+                }
+            });
+            const populateModelSelect = () => {
+                createCustomSelectOptions();
+            };
             const closeDialog = (dialog) => {
-              dialog.classList.remove('open');
-              setTimeout(() => {
-                dialog.style.display = 'none';
-                document.body.style.overflow = '';
-                $('.container').classList.remove('dialog-open');
-              }, 300);
+                dialog.classList.remove('open');
+                setTimeout(() => {
+                    dialog.style.display = 'none';
+                    document.body.style.overflow = '';
+                    $('.container').classList.remove('dialog-open');
+                }, 300);
             };
             const showDialog = (dialog) => {
-              dialog.style.display = 'block';
-              setTimeout(() => {
-                dialog.classList.add('open');
-                document.body.style.overflow = 'hidden';
-                $('.container').classList.add('dialog-open');
-              }, 10);
+                dialog.style.display = 'block';
+                setTimeout(() => {
+                    dialog.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                    $('.container').classList.add('dialog-open');
+                }, 10);
             }
             const createSnackbar = (message, type = 'info') => {
                 const snackbar = document.createElement('div');
@@ -1842,33 +2158,33 @@
                 return snackbar;
             };
             const showSnackbar = (message, type = 'info') => {
-            const snackbar = createSnackbar(message, type);
-            snackbarContainer.appendChild(snackbar);
-            setTimeout(() => {
-                snackbar.classList.add('show');
-                updateSnackbarPositions();
-            }, 10);
-            snackbar.dataset.timeout = setTimeout(() => {
-                hideSnackbar(snackbar);
-            }, 5000);
-        };
-        const hideSnackbar = (snackbar) => {
-            clearTimeout(snackbar.dataset.timeout);
-            snackbar.classList.remove('show');
-            snackbar.classList.add('hide');
-            setTimeout(() => {
-                snackbar.remove();
-                updateSnackbarPositions();
-            }, 300);
-        };
-        const updateSnackbarPositions = () => {
-            const snackbars = snackbarContainer.querySelectorAll('.snackbar');
-            let topOffset = 20;
-            snackbars.forEach((snackbar) => {
-                snackbar.style.top = `${topOffset}px`;
-                topOffset += snackbar.offsetHeight + 10;
-            });
-        };
+                const snackbar = createSnackbar(message, type);
+                snackbarContainer.appendChild(snackbar);
+                setTimeout(() => {
+                    snackbar.classList.add('show');
+                    updateSnackbarPositions();
+                }, 10);
+                snackbar.dataset.timeout = setTimeout(() => {
+                    hideSnackbar(snackbar);
+                }, 5000);
+            };
+            const hideSnackbar = (snackbar) => {
+                clearTimeout(snackbar.dataset.timeout);
+                snackbar.classList.remove('show');
+                snackbar.classList.add('hide');
+                setTimeout(() => {
+                    snackbar.remove();
+                    updateSnackbarPositions();
+                }, 300);
+            };
+            const updateSnackbarPositions = () => {
+                const snackbars = snackbarContainer.querySelectorAll('.snackbar');
+                let topOffset = 20;
+                snackbars.forEach((snackbar) => {
+                    snackbar.style.top = `${topOffset}px`;
+                    topOffset += snackbar.offsetHeight + 10;
+                });
+            };
             const addListItem = (listId, value = '') => {
                 const listInput = $(`#${listId}`);
                 const listItem = document.createElement('div');
@@ -1907,7 +2223,9 @@
                     systemPrompt: systemPrompt,
                     messages: messages
                 }, null, 2);
-                const blob = new Blob([data], { type: 'application/json' });
+                const blob = new Blob([data], {
+                    type: 'application/json'
+                });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
@@ -1954,6 +2272,9 @@
             themeLightRadio.addEventListener('change', () => setTheme('light'));
             themeDarkRadio.addEventListener('change', () => setTheme('dark'));
             colorSchemeSelect.addEventListener('change', () => setColorScheme(colorSchemeSelect.value));
+            modelSelect.addEventListener('change', () => {
+                selectedModel = modelSelect.value;
+            });
             setTheme(currentTheme);
             setColorScheme(currentColorScheme);
             settingsTabs.forEach(tab => {
@@ -1962,65 +2283,67 @@
                     settingsTabContents.forEach(c => c.classList.remove('active'));
                     tab.classList.add('active');
                     const tabId = tab.dataset.tab;
-                $(`#${tabId}`).classList.add('active');
+                    $(`#${tabId}`).classList.add('active');
+                });
             });
-        });
-        document.addEventListener('click', (event) => {
-            const target = event.target;
-            if (target.classList.contains('dialog-close')) {
-                closeDialog(target.closest('.dialog'));
-            } else if (target.closest('#connect-button')) {
-                showDialog(connectDialog);
-            } else if (target.closest('#settings-button')) {
-                showDialog(settingsDialog);
-            } else if (target.id === 'connect-confirm') {
-                apiUrl = apiURLInput.value;
-                apiKey = apiKEYInput.value;
-                fetchModels();
-                closeDialog(connectDialog);
-            } else if (target.id === 'settings-save') {
-                systemPrompt = systemPromptInput.value;
-                for (const key in generationParameters) {
-                  const inputElement = $(`#${key}`);
-                  if (inputElement.type === 'checkbox') {
-                      generationParameters[key] = inputElement.checked;
-                  } else if (inputElement.classList.contains('list-input')) {
-                      generationParameters[key] = Array.from(inputElement.querySelectorAll('.list-item-input')).map(item => item.value);
-                  } else {
-                      generationParameters[key] = parseFloat(inputElement.value);
-                  }
+            document.addEventListener('click', (event) => {
+                const target = event.target;
+                if (target.classList.contains('dialog-close')) {
+                    closeDialog(target.closest('.dialog'));
+                } else if (target.closest('#connect-button')) {
+                    showDialog(connectDialog);
+                } else if (target.closest('#settings-button')) {
+                    showDialog(settingsDialog);
+                } else if (target.id === 'connect-confirm') {
+                    apiUrl = apiURLInput.value;
+                    apiKey = apiKEYInput.value;
+                    fetchModels();
+                    closeDialog(connectDialog);
+                } else if (target.id === 'settings-save') {
+                    systemPrompt = systemPromptInput.value;
+                    for (const key in generationParameters) {
+                        const inputElement = $(`#${key}`);
+                        if (inputElement) {
+                            if (inputElement.type === 'checkbox') {
+                                generationParameters[key] = inputElement.checked;
+                            } else if (inputElement.classList.contains('list-input')) {
+                                generationParameters[key] = Array.from(inputElement.querySelectorAll('.list-item-input')).map(item => item.value);
+                            } else {
+                                generationParameters[key] = isNaN(parseFloat(inputElement.value)) ? inputElement.value : parseFloat(inputElement.value);
+                            }
+                        }
+                    }
+                    showSnackbar('Settings saved', 'success');
+                    closeDialog(settingsDialog);
+                } else if (target.id === 'cancel-button') {
+                    cancelStream();
+                } else if (target.classList.contains('list-add-button')) {
+                    const listId = target.dataset.listId;
+                    addListItem(listId);
+                } else if (target.closest('#export-chat-button')) {
+                    exportChat();
+                } else if (target.closest('#new-chat-button')) {
+                    newChat();
                 }
-                showSnackbar('Settings saved', 'success');
-                closeDialog(settingsDialog);
-            } else if (target.id === 'cancel-button') {
-                cancelStream();
-            } else if (target.classList.contains('list-add-button')) {
-                const listId = target.dataset.listId;
-                addListItem(listId);
-            } else if (target.closest('#export-chat-button')) {
-                exportChat();
-            } else if (target.closest('#new-chat-button')) {
-                newChat();
-            }
-        });
-        sendButton.addEventListener('click', sendMessage);
-        promptTextbox.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                sendMessage();
-            }
-        });
-        const addListAddButton = (listId) => {
-            const listInput = $(`#${listId}`);
-            const addButton = document.createElement('button');
-            addButton.classList.add('list-add-button');
-            addButton.textContent = 'Add';
-            addButton.dataset.listId = listId;
-            listInput.parentNode.appendChild(addButton);
-        };
-        addListAddButton('dry_sequence_breakers');
-        populateParameters();
-        adjustTooltipPosition();
-    </script>
-</body>
+            });
+            sendButton.addEventListener('click', sendMessage);
+            promptTextbox.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    sendMessage();
+                }
+            });
+            const addListAddButton = (listId) => {
+                const listInput = $(`#${listId}`);
+                const addButton = document.createElement('button');
+                addButton.classList.add('list-add-button');
+                addButton.textContent = 'Add';
+                addButton.dataset.listId = listId;
+                listInput.parentNode.appendChild(addButton);
+            };
+            addListAddButton('dry_sequence_breakers');
+            populateParameters();
+            adjustTooltipPosition();
+        </script>
+    </body>
 </html>
