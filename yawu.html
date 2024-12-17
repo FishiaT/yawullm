@@ -1285,7 +1285,7 @@
             padding: 12px 16px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content:  space-between;
             transition: box-shadow 0.2s ease;
         }
         .custom-select-value {
@@ -1386,6 +1386,111 @@
                 scrollbar-width: thin;
             }
         }
+        .attach-button {
+            padding: 12px;
+            margin-right: 12px;
+            border-radius: 20px;
+            color: var(--md-sys-color-on-primary);
+        }
+        .attach-button i {
+            pointer-events: none;
+        }
+        .image-carousel {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 12px;
+            position: relative;
+            display: none;
+        }
+        .carousel-viewport {
+            overflow: hidden;
+            width: 100%;
+            border-radius: 20px;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.3s ease;
+        }
+        .carousel-item {
+            flex: 0 0 auto;
+            width: 100px;
+            height: 100px;
+            margin-right: 10px;
+            position: relative;
+        }
+        .carousel-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 2px solid var(--md-sys-color-outline);
+        }
+        .remove-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .carousel-item:hover .remove-image {
+            opacity: 1;
+        }
+        .remove-image i {
+            font-size: 12px;
+            pointer-events: none;
+        }
+        .clear-all-images {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            border: none;
+            border-radius: 20px;
+            padding: 8px 12px;
+            cursor: pointer;
+            display: none;
+        }
+        .clear-all-images i {
+            font-size: 14px;
+            pointer-events: none;
+        }
+        .image-carousel.has-images .clear-all-images {
+            display: flex;
+        }
+        .attach-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 500;
+            border: 2px solid var(--md-sys-color-surface);
+        }
+        .user-message .carousel-image, .ai-message .carousel-image {
+            border: none;
+        }
+        .user-message .remove-image, .ai-message .remove-image {
+            display: none;
+        }
     </style>
 </head>
 <body class="default-dark">
@@ -1425,6 +1530,14 @@
         <div class="chat-wrapper">
             <div id="chat-area" class="chat-area"></div>
             <div class="prompt-area">
+                <input type="file" id="attach-input" accept="image/*" multiple style="display: none;">
+                    <button id="attach-button" class="attach-button"><i class="fas fa-paperclip"></i></button>
+                    <div id="image-carousel" class="image-carousel">
+                        <div id="carousel-viewport" class="carousel-viewport">
+                            <div id="carousel-track" class="carousel-track"></div>
+                        </div>
+                        <button id="clear-all-images" class="clear-all-images" style="display: none;"><i class="fas fa-times"></i></button>
+                    </div>
                 <textarea id="prompt-textbox" class="prompt-textbox" placeholder="Enter your message here..."></textarea>
                 <button id="send-button" class="send-button"><i class="fas fa-paper-plane"></i></button>
                 <button id="cancel-button" class="cancel-button" style="display: none;"><i class="fas fa-stop"></i></button>
@@ -1659,6 +1772,12 @@
             const customSelectOptionsContainer = customSelect.querySelector('.custom-select-options');
             let isCustomSelectOpen = false;
             let md;
+            let attachedImages = [];
+            const attachInput = $('#attach-input');
+            const attachButton = $('#attach-button');
+            const imageCarousel = $('#image-carousel');
+            const carouselTrack = $('#carousel-track');
+            const clearAllImagesButton = $('#clear-all-images');
             function initializeMarkdownIt() {
                 md = window.markdownit({
                     highlight: function (str, lang) {
@@ -1704,7 +1823,55 @@
                 $$('.message-action-button, .send-button').forEach(button => button.classList.remove('disabled'));
                 promptTextbox.classList.remove('disabled');
             };
-            const addMessage = (message, isUser) => {
+            const addImageToCarousel = (imageData) => {
+                const carouselItem = document.createElement('div');
+                carouselItem.classList.add('carousel-item');
+                const image = document.createElement('img');
+                image.src = imageData;
+                image.classList.add('carousel-image');
+                carouselItem.appendChild(image);
+                const removeButton = document.createElement('button');
+                removeButton.classList.add('remove-image');
+                removeButton.innerHTML = '<i class="fas fa-times"></i>';
+                removeButton.addEventListener('click', () => {
+                    const index = attachedImages.indexOf(imageData);
+                    if (index > -1) {
+                        attachedImages.splice(index, 1);
+                    }
+                    carouselTrack.removeChild(carouselItem);
+                    if (attachedImages.length === 0) {
+                        imageCarousel.style.display = 'none';
+                        imageCarousel.classList.remove('has-images');
+                        attachButton.querySelector('.attach-badge')?.remove();
+                    } else {
+                        updateAttachBadge();
+                    }
+                });
+                carouselItem.appendChild(removeButton);
+                carouselTrack.appendChild(carouselItem);
+                imageCarousel.style.display = 'flex';
+                setTimeout(() => {
+                    imageCarousel.classList.add('has-images');
+                }, 0);
+                updateAttachBadge();
+            };
+            const updateAttachBadge = () => {
+                let badge = attachButton.querySelector('.attach-badge');
+                if (!badge) {
+                    badge = document.createElement('div');
+                    badge.classList.add('attach-badge');
+                    attachButton.appendChild(badge);
+                }
+                badge.textContent = attachedImages.length;
+            };
+            const clearAllAttachedImages = () => {
+                attachedImages = [];
+                carouselTrack.innerHTML = '';
+                imageCarousel.style.display = 'none';
+                imageCarousel.classList.remove('has-images');
+                attachButton.querySelector('.attach-badge')?.remove();
+            };
+            const addMessage = (message, isUser, images = []) => {
                 const messageElement = document.createElement('div');
                 messageElement.classList.add('message', isUser ? 'user-message' : 'ai-message');
                 const messageContent = document.createElement('div');
@@ -1713,6 +1880,32 @@
                 messageElement.appendChild(messageContent);
                 highlightCodeBlocks(messageContent);
                 styleTables(messageContent);
+                if (images.length > 0) {
+                    const imageCarousel = document.createElement('div');
+                    imageCarousel.classList.add('image-carousel');
+                    imageCarousel.style.display = 'flex';
+                    imageCarousel.style.marginBottom = '12px';
+                    const carouselViewport = document.createElement('div');
+                    carouselViewport.classList.add('carousel-viewport');
+                    const carouselTrack = document.createElement('div');
+                    carouselTrack.classList.add('carousel-track');
+                    images.forEach(imageData => {
+                        const carouselItem = document.createElement('div');
+                        carouselItem.classList.add('carousel-item');
+                        const image = document.createElement('img');
+                        image.src = imageData;
+                        image.classList.add('carousel-image');
+                        carouselItem.appendChild(image);
+                        const removeButton = document.createElement('button');
+                        removeButton.classList.add('remove-image');
+                        removeButton.innerHTML = '<i class="fas fa-times"></i>';
+                        carouselItem.appendChild(removeButton);
+                        carouselTrack.appendChild(carouselItem);
+                    });
+                    carouselViewport.appendChild(carouselTrack);
+                    imageCarousel.appendChild(carouselViewport);
+                    messageElement.insertBefore(imageCarousel, messageContent);
+                }
                 const messageActions = document.createElement('div');
                 messageActions.classList.add('message-actions');
                 if (!isUser) {
@@ -1739,7 +1932,7 @@
                 copyRawButton.setAttribute('title', 'Copy');
                 copyRawButton.classList.add('message-action-button');
                 copyRawButton.addEventListener('click', () => copyRawContent(messageElement));
-                messageActions.appendChild(copyRawButton); 
+                messageActions.appendChild(copyRawButton);
                 messageActions.appendChild(deleteButton);
                 messageElement.appendChild(messageActions);
                 chatArea.appendChild(messageElement);
@@ -1898,31 +2091,49 @@
                 disableActions();
                 sendButton.style.display = 'none';
                 cancelButton.style.display = 'flex';
-                const userMessage = addMessage(message, true);
+                const userMessage = addMessage(message, true, attachedImages);
                 userMessage.parentNode.dataset.rawContent = message;
+                const userMessageContent = [
+                    {
+                        type: "text",
+                        text: message
+                    }
+                ];
+                if (attachedImages.length > 0) {
+                    attachedImages.forEach(img => {
+                        const imageDataUrl = img.startsWith('data:image') ? img : `data:image/jpeg;base64,${img}`;
+                        userMessageContent.push({
+                            type: "image_url",
+                            image_url: {
+                                url: imageDataUrl
+                            }
+                        });
+                    });
+                }
                 messages.push({
                     role: 'user',
-                    content: message
+                    content: userMessageContent
                 });
                 promptTextbox.value = '';
                 const aiMessageContent = addMessage('', false);
                 const params = buildGenerationParameters();
                 try {
+                    const requestBody = {
+                        model: selectedModel,
+                        messages: [{
+                            role: 'system',
+                            content: systemPrompt
+                        }, ...messages],
+                        stream: true,
+                        ...params
+                    };
                     const response = await fetch(`${apiUrl}/chat/completions`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${apiKey}`
                         },
-                        body: JSON.stringify({
-                            model: selectedModel,
-                            messages: [{
-                                role: 'system',
-                                content: systemPrompt
-                            }, ...messages],
-                            stream: true,
-                            ...params
-                        })
+                        body: JSON.stringify(requestBody)
                     });
                     if (!response.ok) {
                         if (response.status === 401) {
@@ -1938,16 +2149,11 @@
                     let buffer = '';
                     let fullResponse = '';
                     while (true) {
-                        const {
-                            done,
-                            value
-                        } = await currentReader.read();
+                        const { done, value } = await currentReader.read();
                         if (done) {
                             break;
                         }
-                        buffer += decoder.decode(value, {
-                            stream: true
-                        });
+                        buffer += decoder.decode(value, { stream: true });
                         let boundary = buffer.indexOf('\n\n');
                         while (boundary !== -1) {
                             const chunk = buffer.substring(0, boundary);
@@ -1983,6 +2189,7 @@
                     enableActions();
                     sendButton.style.display = 'flex';
                     cancelButton.style.display = 'none';
+                    clearAllAttachedImages();
                 }
             };
             const regenerateResponse = async (messageElement) => {
@@ -1992,25 +2199,49 @@
                 const messageIndex = Array.from(chatArea.children).indexOf(messageElement);
                 const messageContent = messageElement.querySelector('.message-content');
                 const userMessageIndex = messageIndex - 1;
-                messages = messages.slice(0, userMessageIndex + 1);
+                const originalUserMessage = messages[userMessageIndex];
+                const originalImages = originalUserMessage.content.filter(c => c.type === "image_url").map(c => c.image_url.url) || [];
+                const userMessageContent = [
+                    {
+                        type: "text",
+                        text: originalUserMessage.content.find(c => c.type === "text").text
+                    }
+                ];
+                if (originalImages.length > 0) {
+                    originalImages.forEach(img => {
+                        const imageDataUrl = img.startsWith('data:image') ? img : `data:image/jpeg;base64,${img}`;
+                        userMessageContent.push({
+                            type: "image_url",
+                            image_url: {
+                                url: imageDataUrl
+                            }
+                        });
+                    });
+                }
+                messages = messages.slice(0, userMessageIndex);
+                messages.push({
+                    role: 'user',
+                    content: userMessageContent
+                });
                 messageContent.innerHTML = '';
                 const params = buildGenerationParameters();
                 try {
+                    const requestBody = {
+                        model: selectedModel,
+                        messages: [{
+                            role: 'system',
+                            content: systemPrompt
+                        }, ...messages],
+                        stream: true,
+                        ...params
+                    };
                     const response = await fetch(`${apiUrl}/chat/completions`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${apiKey}`
                         },
-                        body: JSON.stringify({
-                            model: selectedModel,
-                            messages: [{
-                                role: 'system',
-                                content: systemPrompt
-                            }, ...messages],
-                            stream: true,
-                            ...params
-                        })
+                        body: JSON.stringify(requestBody)
                     });
                     if (!response.ok) {
                         const errorText = await response.text();
@@ -2022,16 +2253,11 @@
                     let buffer = '';
                     let fullResponse = '';
                     while (true) {
-                        const {
-                            done,
-                            value
-                        } = await currentReader.read();
+                        const { done, value } = await currentReader.read();
                         if (done) {
                             break;
                         }
-                        buffer += decoder.decode(value, {
-                            stream: true
-                        });
+                        buffer += decoder.decode(value, { stream: true });
                         let boundary = buffer.indexOf('\n\n');
                         while (boundary !== -1) {
                             const chunk = buffer.substring(0, boundary);
@@ -2547,6 +2773,24 @@
             populateParameters();
             chatArea.addEventListener('drop', handleFileDrop);
             chatArea.addEventListener('dragover', handleDragOver);
+            attachButton.addEventListener('click', () => {
+                attachInput.click();
+            });
+            attachInput.addEventListener('change', (event) => {
+                const files = event.target.files;
+                for (const file of files) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const imageData = e.target.result;
+                        attachedImages.push(imageData);
+                        addImageToCarousel(imageData);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            clearAllImagesButton.addEventListener('click', () => {
+                clearAllAttachedImages();
+            });
             adjustTooltipPosition();
         </script>
     </body>
