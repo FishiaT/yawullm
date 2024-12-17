@@ -8,7 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it-footnote@3.0.3/dist/markdown-it-footnote.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it-sub@1.0.0/dist/markdown-it-sub.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it-sup@1.0.0/dist/markdown-it-sup.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it-task-lists@2.1.1/dist/markdown-it-task-lists.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it-abbr@1.0.4/dist/markdown-it-abbr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it-ins@3.0.1/dist/markdown-it-ins.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it-mark@3.0.1/dist/markdown-it-mark.min.js"></script>
     <style>
         :root {
             --md-ref-typeface-brand: 'Google Sans', sans-serif;
@@ -615,6 +622,8 @@
         .message-content pre {
             border-radius: 16px;
             padding: 8px 16px;
+            border: 1px solid var(--md-sys-color-outline);
+            overflow-x: auto;
         }
         .message-content code {
             border-radius: 16px;
@@ -622,6 +631,12 @@
             padding: 0.2em 0.4em;
             border: 1px solid var(--md-sys-color-outline);
             font-size: 0.9em;
+        }
+        .message-content pre code {
+            border-radius: 0;
+            background-color: transparent;
+            padding: 0;
+            border: none;
         }
         .message-content table {
             border-collapse: separate;
@@ -651,6 +666,89 @@
         }
         .message-content tr:last-child td:last-child {
             border-bottom-right-radius: 16px;
+        }
+        .message-content blockquote {
+            border-left: 4px solid var(--md-sys-color-outline);
+            padding: 4px 16px;
+            margin: 8px 0;
+            background-color: var(--md-sys-color-surface-container);
+        }
+        .message-content blockquote blockquote {
+            background-color: var(--md-sys-color-surface-container-highest);
+        }
+        .message-content ul, .message-content ol {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+        .message-content ul ul, .message-content ol ol, .message-content ul ol, .message-content ol ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .message-content .footnote-ref {
+            text-decoration: none;
+        }
+        .message-content .footnote-ref a {
+            color: var(--md-sys-color-primary);
+            text-decoration: none;
+        }
+        .message-content .footnote-list {
+            margin-top: 16px;
+            font-size: 12px;
+        }
+        .message-content .footnote-list li {
+            margin-bottom: 4px;
+        }
+        .message-content .footnote-list p {
+            display: inline;
+        }
+        .message-content .task-list-item {
+            list-style-type: none;
+        }
+        .message-content .task-list-item input[type="checkbox"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--md-sys-color-on-surface);
+            border-radius: 4px;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s, border-color 0.2s;
+            cursor: pointer;
+            margin-right: 10px;
+            vertical-align: -2px;
+        }
+        .message-content .task-list-item input[type="checkbox"]:before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--md-sys-color-primary);
+            border-radius: 2px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .message-content .task-list-item input[type="checkbox"]:checked:before {
+            opacity: 1;
+        }
+        .message-content .task-list-item input[type="checkbox"]:hover {
+            background-color: var(--md-sys-color-primary-container);
+        }
+        .message-content .task-list-item input[type="checkbox"]:checked {
+            border-color: var(--md-sys-color-primary);
+        }
+        .message-content s, .message-content del {
+            text-decoration: line-through;
+        }
+        .message-content sub {
+            vertical-align: sub;
+            font-size: smaller;
+        }
+        .message-content sup {
+            vertical-align: super;
+            font-size: smaller;
         }
         .message-actions {
             display: flex;
@@ -1560,6 +1658,30 @@
             const customSelectValue = customSelect.querySelector('.custom-select-value');
             const customSelectOptionsContainer = customSelect.querySelector('.custom-select-options');
             let isCustomSelectOpen = false;
+            let md;
+            function initializeMarkdownIt() {
+                md = window.markdownit({
+                    highlight: function (str, lang) {
+                        if (lang && hljs.getLanguage(lang)) {
+                            try {
+                                return '<pre class="hljs"><code>' + hljs.highlight(str, { language: lang, ignoreIllegals: true }).value + '</code></pre>';
+                            } catch (__) {}
+                        }
+                        return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+                    },
+                    html: true,
+                    breaks: true,
+                    linkify: true,
+                    typographer: true
+                })
+                .use(window.markdownitFootnote)
+                .use(window.markdownitSub)
+                .use(window.markdownitSup)
+                .use(window.markdownitTaskLists)
+                .use(window.markdownitAbbr)
+                .use(window.markdownitIns)
+                .use(window.markdownitMark);
+            }
             const setTheme = (theme) => {
                 document.body.classList.toggle('dark-theme', theme === 'dark');
                 currentTheme = theme;
@@ -1587,7 +1709,7 @@
                 messageElement.classList.add('message', isUser ? 'user-message' : 'ai-message');
                 const messageContent = document.createElement('div');
                 messageContent.classList.add('message-content');
-                messageContent.innerHTML = marked.parse(message);
+                messageContent.innerHTML = md.render(message);
                 messageElement.appendChild(messageContent);
                 highlightCodeBlocks(messageContent);
                 styleTables(messageContent);
@@ -1632,7 +1754,6 @@
             };
             const highlightCodeBlocks = (messageContent) => {
                 messageContent.querySelectorAll('pre code').forEach((block) => {
-                    hljs.highlightElement(block);
                     const parent = block.parentNode;
                     parent.classList.add('codeblock');
                     const copyButton = document.createElement('button');
@@ -1680,7 +1801,7 @@
                 const resetMessageContent = (newContent) => {
                     const newMessageContent = document.createElement('div');
                     newMessageContent.classList.add('message-content');
-                    newMessageContent.innerHTML = marked.parse(newContent);
+                    newMessageContent.innerHTML = md.render(newContent);
                     highlightCodeBlocks(newMessageContent);
                     styleTables(newMessageContent);
                     editBoxContainer.replaceWith(newMessageContent);
@@ -1838,7 +1959,7 @@
                                     if (json.choices[0].delta.content) {
                                         const content = json.choices[0].delta.content;
                                         fullResponse += content;
-                                        aiMessageContent.innerHTML = marked.parse(fullResponse);
+                                        aiMessageContent.innerHTML = md.render(fullResponse);
                                         aiMessageContent.parentNode.dataset.rawContent = fullResponse;
                                         highlightCodeBlocks(aiMessageContent);
                                         styleTables(aiMessageContent);
@@ -1922,7 +2043,7 @@
                                     if (json.choices[0].delta.content) {
                                         const content = json.choices[0].delta.content;
                                         fullResponse += content;
-                                        messageContent.innerHTML = marked.parse(fullResponse);
+                                        messageContent.innerHTML = md.render(fullResponse);
                                         highlightCodeBlocks(messageContent);
                                         styleTables(messageContent);
                                     }
@@ -2421,6 +2542,7 @@
                 addButton.dataset.listId = listId;
                 listInput.parentNode.appendChild(addButton);
             };
+            initializeMarkdownIt();
             addListAddButton('dry_sequence_breakers');
             populateParameters();
             chatArea.addEventListener('drop', handleFileDrop);
